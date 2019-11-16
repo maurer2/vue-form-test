@@ -8,8 +8,9 @@
 </template>
 
 <script>
-import { Vue } from 'vue-property-decorator';
+import { Vue, Component } from 'vue-property-decorator';
 
+@Component
 export default class Form extends Vue {
   handleClick() {
     console.log('handleClick', this);
