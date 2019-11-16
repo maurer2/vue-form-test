@@ -1,17 +1,18 @@
 <template>
   <div id="container" class="container">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+    <form class="form" autocomplete="false">
+      <Field name="Name" label="Label" value="Value" :is-invalid="true"/>
+    </form>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from './components/HelloWorld.vue';
+import Field from './components/Field/Field.vue';
 
 @Component({
   components: {
-    HelloWorld,
+    Field,
   },
 })
 export default class App extends Vue {}
