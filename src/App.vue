@@ -1,18 +1,25 @@
 <template>
   <div id="container" class="container">
-    <form class="form" autocomplete="false">
-      <Field name="Name" label="Label" value="Value" :is-invalid="true"/>
-    </form>
+    <Form>
+      <Field
+        name="Name"
+        label="Label"
+        value="Value"
+        :is-invalid="true"
+      />
+    </Form>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import Form from './components/Form/Form.vue';
 import Field from './components/Field/Field.vue';
 
 @Component({
   components: {
     Field,
+    Form,
   },
 })
 export default class App extends Vue {}
