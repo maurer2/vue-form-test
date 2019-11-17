@@ -17,4 +17,9 @@ export default new Vuex.Store({
       commit('addEntry', entry);
     },
   },
+  getters: {
+    nameOfEntries: (state) => {
+      return state.entries.map((entry: any) => `${entry.firstName} ${entry.lastName}`);
+    },
+  },
 });

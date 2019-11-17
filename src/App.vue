@@ -47,7 +47,19 @@ export default class App extends Vue {
   }
 
   mounted() {
-    this.$store.commit('addEntry', {"firstName":"wefwef","lastName":"wfwe@wefew","email":"wfwef@frewfew.de","customerQuery":""});
+    this.$store.commit('addEntry', {
+      firstName: 'Cat',
+      lastName: 'Damon',
+      email: 'catD@mon.com',
+      customerQuery: '',
+    });
+
+    this.$store.commit('addEntry', {
+      firstName: 'Catrick',
+      lastName: 'Swayze',
+      email: 'catrick@swayze.com',
+      customerQuery: '',
+    });
   }
 
   handleNewEntry(newEntry: { [key: string]: string }): void {
@@ -83,6 +95,15 @@ body {
   "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.visually-hidden {
+  position: absolute;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
 }
 </style>
 

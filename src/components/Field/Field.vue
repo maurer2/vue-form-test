@@ -32,7 +32,7 @@
     </template>
 
     <p class="error" v-if="!isValid && userHasInteractedWithForm">
-      Please enter a valid value
+      Please enter a valid value.
     </p>
   </div>
 </template>
