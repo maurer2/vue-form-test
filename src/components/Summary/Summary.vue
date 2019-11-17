@@ -48,7 +48,7 @@
 
             <dl class="detail" v-if="entry.customerQuery.length > 0">
               <dd class="key">
-                Customer query
+                Query
               </dd>
               <dd class="value">
                 {{ entry.customerQuery }}
@@ -72,7 +72,7 @@ export default class Field extends Vue {
     return this.$store.state.entries;
   }
 
-  handleClick(index: number) {
+  handleClick(index: number): void {
     if (index === this.activeEntry) {
       this.activeEntry = -1;
       return;

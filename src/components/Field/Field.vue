@@ -1,5 +1,5 @@
 <template>
-  <div class="field" :class="{ 'field--is-invalid': !isValid }">
+  <div class="field">
     <label class="label" :class="{ 'label--is-required': isRequired }" :for="id">
       {{ label }}
     </label>
@@ -39,7 +39,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-// import { Input } from '@/components/types.ts';
 
 @Component
 export default class Field extends Vue {

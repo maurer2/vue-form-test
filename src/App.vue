@@ -67,7 +67,7 @@ export default class App extends Vue {
     this.formIsVisible = false;
   }
 
-  handleFormVisibilityToggle() {
+  handleFormVisibilityToggle(): void {
     this.formIsVisible = !this.formIsVisible;
   }
 }
@@ -86,7 +86,6 @@ html {
   box-sizing: border-box;
   font-size: 16px;
   background: $background;
-  overflow-y: scroll;
 }
 
 body {
