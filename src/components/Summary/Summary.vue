@@ -61,7 +61,7 @@ import { Vue, Component } from 'vue-property-decorator';
 
 @Component
 export default class Field extends Vue {
-  private activeEntry: number = -1;
+  private activeEntry: number = (this.entries.length > 0) ? 0 : -1;
 
   get entries() {
     return this.$store.state.entries;

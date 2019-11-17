@@ -7,7 +7,7 @@
       <button
         class="button"
         type="button"
-        @click="handleFormVisbilityToggle"
+        @click="handleFormVisibilityToggle"
       >
         <span class="text" v-if="formIsVisible">
           Hide form
@@ -42,10 +42,6 @@ import Summary from '@/components/Summary/Summary.vue';
 export default class App extends Vue {
   private formIsVisible: boolean = true;
 
-  get entries() {
-    return this.$store.state.entries;
-  }
-
   mounted() {
     this.$store.commit('addEntry', {
       firstName: 'Cat',
@@ -67,7 +63,7 @@ export default class App extends Vue {
     this.formIsVisible = false;
   }
 
-  handleFormVisbilityToggle() {
+  handleFormVisibilityToggle() {
     this.formIsVisible = !this.formIsVisible;
   }
 }
