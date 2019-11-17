@@ -6,14 +6,15 @@
     @submit.prevent="handleSubmit"
   >
     <h2>Form</h2>
-
     <Field
       name="First name"
       id="firstName"
       label="Name label"
       type="text"
+      placeholder="Please enter your first name"
       v-model.trim="firstName"
       :is-valid="fieldsValidity.firstName"
+      :is-required="fieldsMandatoryValues.firstName"
       @isValidChange="handleValidChange"
     />
 
@@ -22,8 +23,10 @@
       id="lastName"
       label="Last label"
       type="text"
+      placeholder="Please enter your last name"
       v-model.trim="lastName"
       :is-valid="fieldsValidity.lastName"
+      :is-required="fieldsMandatoryValues.lastName"
       @isValidChange="handleValidChange"
     />
 
@@ -32,18 +35,31 @@
       id="email"
       label="Email label"
       type="email"
+      placeholder="Please enter your email"
       v-model.trim="email"
       :is-valid="fieldsValidity.email"
+      :is-required="fieldsMandatoryValues.email"
       @isValidChange="handleValidChange"
     />
 
-    <pre>
-      {{ fieldsValidity }}
-    </pre>
+    <Field
+      name="Customer Query"
+      id="customerQuery"
+      label="Customer query"
+      type="textarea"
+      placeholder="Please enter your customer query"
+      v-model.trim="customerQuery"
+      :is-required="fieldsMandatoryValues.customerQuery"
+      @isValidChange="handleValidChange"
+    />
 
     <button class="button" type="submit" :disabled="!isSubmittable">
       Add entry
     </button>
+
+    <legend class="legend">
+      * fields are mandatory
+    </legend>
   </form>
 </template>
 
@@ -60,10 +76,18 @@ export default class Form extends Vue {
   private firstName: string = '';
   private lastName: string = '';
   private email: string = '';
+  private customerQuery: string = '';
   private fieldsValidity: { [key: string]: boolean } = {
     firstName: false,
     lastName: false,
     email: false,
+    customerQuery: true,
+  }
+  private fieldsMandatoryValues: { [key: string]: boolean } = {
+    firstName: true,
+    lastName: true,
+    email: true,
+    customerQuery: false,
   }
 
   get isSubmittable(): boolean {
@@ -78,12 +102,13 @@ export default class Form extends Vue {
       return;
     }
 
-    const { firstName, lastName, email } = this;
+    const { firstName, lastName, email, customerQuery } = this;
 
     this.$emit('addNewEntry', {
       firstName,
       lastName,
       email,
+      customerQuery,
     });
   }
 

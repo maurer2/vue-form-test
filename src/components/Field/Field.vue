@@ -1,21 +1,38 @@
 <template>
   <div class="field" :class="{ 'field--is-invalid': !isValid }">
-    <label class="label" :for="id">
+    <label class="label" :class="{ 'label--is-required': isRequired }" :for="id">
       {{ label }}
     </label>
 
-    <input
-      class="field"
-      type="text"
-      placeholder="Enter value"
-      :name="name"
-      :id="id"
-      :value="value"
-      @input="handleInput"
-    >
+    <template v-if="type === 'email' || type === 'text'">
+      <input
+        class="field"
+        :name="name"
+        :id="id"
+        :value="value"
+        :type="type"
+        :placeholder="placeholder"
+        :required="isRequired"
+        @input="handleInput"
+      >
+    </template>
+
+    <template v-if="type === 'textarea'">
+      <textarea
+        class="textarea"
+        cols="40"
+        rows="10"
+        :name="name"
+        :id="id"
+        :value="value"
+        :placeholder="placeholder"
+        :required="isRequired"
+        @input="handleInput"
+      />
+    </template>
 
     <p class="error" v-if="!isValid && userHasInteractedWithForm">
-      Field invalid
+      Please enter a valid value
     </p>
   </div>
 </template>
@@ -30,8 +47,10 @@ export default class Field extends Vue {
   @Prop() private id!: string;
   @Prop() private label!: string;
   @Prop() private value!: string;
+  @Prop() private placeholder!: string;
   @Prop() private isValid!: boolean;
-  @Prop() private type!: 'text' | 'email';
+  @Prop() private isRequired!: boolean;
+  @Prop() private type!: 'text' | 'email' | 'textarea';
 
   private userHasInteractedWithForm: boolean = false;
 
@@ -65,6 +84,10 @@ export default class Field extends Vue {
     const { id, type, isValid: oldIsValid } = this;
     const eventName: string = 'isValidChange';
 
+    if (type === 'textarea') {
+      return;
+    }
+
     const newIsValid = (type === 'text')
       ? Field.isValidTextField(newValue)
       : Field.isValidEmailField(newValue);
@@ -77,6 +100,14 @@ export default class Field extends Vue {
 </script>
 
 <style scoped lang="scss">
+.label {
+  font-weight: bold;
+
+  &--is-required:after {
+    content: "*";
+  }
+}
+
 .error {
   color: red;
 }

@@ -47,7 +47,7 @@ export default class App extends Vue {
   }
 
   mounted() {
-    this.$store.commit('addEntry', {"firstName":"wefwef","lastName":"wfwe@wefew","email":"wfwef@frewfew.de"});
+    this.$store.commit('addEntry', {"firstName":"wefwef","lastName":"wfwe@wefew","email":"wfwef@frewfew.de","customerQuery":""});
   }
 
   handleNewEntry(newEntry: { [key: string]: string }): void {
