@@ -86,6 +86,7 @@ html {
   box-sizing: border-box;
   font-size: 16px;
   background: $background;
+  overflow-y: scroll;
 }
 
 body {
@@ -149,7 +150,13 @@ button {
 }
 
 .main {
+  margin-right: auto;
   padding: 1rem;
+  max-width: 50rem;
+}
+
+.section {
+  margin-bottom: 2rem;
 }
 
 .title {

@@ -118,8 +118,6 @@ export default class Form extends Vue {
   }
 
   handleValidChange(newIsValid: boolean, id: string): void {
-    // const oldIsValid = this.fieldsValidity[id];
-
     if (typeof newIsValid !== 'boolean') {
       return;
     }
@@ -144,9 +142,7 @@ export default class Form extends Vue {
 }
 
 .hint {
-  font-style: italic; 
+  font-style: italic;
 }
-
-// .button {}
 
 </style>
