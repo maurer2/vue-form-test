@@ -1,31 +1,35 @@
 <template>
-  <article id="container" class="container">
+  <div id="container" class="container">
     <header class="header">
       <h1 class="title">
-        Sailshorse
+        Sailsphorce
       </h1>
-      <button
-        class="button"
-        type="button"
-        @click="handleFormVisibilityToggle"
-      >
-        <span class="text" v-if="formIsVisible">
-          Hide form
-        </span>
-        <span class="text" v-else>
-          Show form
-        </span>
-      </button>
+      <div class="buttons">
+        <button
+          class="button"
+          type="button"
+          @click="handleFormVisibilityToggle"
+        >
+          <span class="text" v-if="formIsVisible">
+            Hide form
+          </span>
+          <span class="text" v-else>
+            Show form
+          </span>
+        </button>
+      </div>
     </header>
 
-    <section class="section" v-if="formIsVisible">
-      <Form @addNewEntry="handleNewEntry" />
-    </section>
+    <main class="main">
+      <section class="section" v-if="formIsVisible">
+        <Form @addNewEntry="handleNewEntry" />
+      </section>
 
-    <section class="section">
-      <Summary />
-    </section>
-  </article>
+      <section class="section">
+        <Summary />
+      </section>
+    </main>
+  </div>
 </template>
 
 <script lang="ts">
@@ -42,7 +46,7 @@ import Summary from '@/components/Summary/Summary.vue';
 export default class App extends Vue {
   private formIsVisible: boolean = true;
 
-  mounted() {
+  mounted(): void {
     this.$store.commit('addEntry', {
       firstName: 'Cat',
       lastName: 'Damon',
@@ -86,23 +90,70 @@ html {
 
 body {
   margin: 0;
-  padding: 1rem;
+  padding: 0;
+  color: $foreground;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
   "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.visually-hidden {
-  position: absolute;
-  height: 1px;
-  width: 1px;
-  overflow: hidden;
-  clip: rect(1px, 1px, 1px, 1px);
-  white-space: nowrap;
+input {
+  padding: 0.5rem 1rem;
+  background-color: $white;
+  background-image: none;
+  border: 1px solid $gray;
+  border-radius: 0;
+  box-shadow: none;
+  outline-color: $orange;
 }
+
+textarea {
+  padding: 0.5rem 1rem;
+  background-color: $white;
+  border: 1px solid $gray;
+  border-radius: 0;
+  box-shadow: none;
+  outline-color: $orange;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  appearance: button;
+  border: 0;
+  border-radius: 20px;
+  background: $orange;
+  color: $white;
+  font-weight: bold;
+  outline: 0;
+  box-shadow: none;
+
+  &[disabled] {
+    background: $gray;
+  }
+}
+
 </style>
 
 <style lang="scss" scoped>
+.container {
+  position: relative; // needed for sticky
+}
 
+.header {
+  position: sticky;
+  top: 0;
+  padding: 1rem;
+  background: $darkblue;
+  color: $white;
+}
+
+.main {
+  padding: 1rem;
+}
+
+.title {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
 </style>

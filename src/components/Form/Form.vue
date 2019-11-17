@@ -1,66 +1,71 @@
 <template>
-  <form
-    class="form"
-    action="/"
-    method="post"
-    @submit.prevent="handleSubmit"
-  >
-    <h2>Form</h2>
-    <Field
-      name="First name"
-      id="firstName"
-      label="Name label"
-      type="text"
-      placeholder="Please enter your first name"
-      v-model.trim="firstName"
-      :is-valid="fieldsValidity.firstName"
-      :is-required="fieldsMandatoryValues.firstName"
-      @isValidChange="handleValidChange"
-    />
+  <div class="wrapper">
+    <h2 class="title">
+      Form
+    </h2>
 
-    <Field
-      name="Last name"
-      id="lastName"
-      label="Last label"
-      type="text"
-      placeholder="Please enter your last name"
-      v-model.trim="lastName"
-      :is-valid="fieldsValidity.lastName"
-      :is-required="fieldsMandatoryValues.lastName"
-      @isValidChange="handleValidChange"
-    />
+    <form
+      class="form"
+      action="/"
+      method="post"
+      @submit.prevent="handleSubmit"
+    >
+      <Field
+        name="First name"
+        id="firstName"
+        label="Name label"
+        type="text"
+        placeholder="Please enter your first name"
+        v-model.trim="firstName"
+        :is-valid="fieldsValidity.firstName"
+        :is-required="fieldsMandatoryValues.firstName"
+        @isValidChange="handleValidChange"
+      />
 
-    <Field
-      name="Email"
-      id="email"
-      label="Email label"
-      type="email"
-      placeholder="Please enter your email"
-      v-model.trim="email"
-      :is-valid="fieldsValidity.email"
-      :is-required="fieldsMandatoryValues.email"
-      @isValidChange="handleValidChange"
-    />
+      <Field
+        name="Last name"
+        id="lastName"
+        label="Last label"
+        type="text"
+        placeholder="Please enter your last name"
+        v-model.trim="lastName"
+        :is-valid="fieldsValidity.lastName"
+        :is-required="fieldsMandatoryValues.lastName"
+        @isValidChange="handleValidChange"
+      />
 
-    <Field
-      name="Customer Query"
-      id="customerQuery"
-      label="Customer query"
-      type="textarea"
-      placeholder="Please enter your customer query"
-      v-model.trim="customerQuery"
-      :is-required="fieldsMandatoryValues.customerQuery"
-      @isValidChange="handleValidChange"
-    />
+      <Field
+        name="Email"
+        id="email"
+        label="Email label"
+        type="email"
+        placeholder="Please enter your email"
+        v-model.trim="email"
+        :is-valid="fieldsValidity.email"
+        :is-required="fieldsMandatoryValues.email"
+        @isValidChange="handleValidChange"
+      />
 
-    <button class="button" type="submit" :disabled="!isSubmittable">
-      Add entry
-    </button>
+      <Field
+        name="Customer Query"
+        id="customerQuery"
+        label="Customer query"
+        type="textarea"
+        placeholder="Please enter your customer query"
+        v-model.trim="customerQuery"
+        :is-required="fieldsMandatoryValues.customerQuery"
+        @isValidChange="handleValidChange"
+      />
 
-    <legend class="legend">
-      * fields are mandatory
-    </legend>
-  </form>
+      <p class="hint">
+        * fields are mandatory
+      </p>
+
+      <button class="button" type="submit" :disabled="!isSubmittable">
+        Add entry
+      </button>
+    </form>
+  </div>
 </template>
 
 <script lang="ts">
@@ -127,8 +132,19 @@ export default class Form extends Vue {
 
 <style scoped lang="scss">
 .form {
-  position: relative;
   padding: 0;
+  max-width: 30rem;
+}
+
+.title {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px dashed $blue;
+}
+
+.hint {
+  font-style: italic; 
 }
 
 // .button {}

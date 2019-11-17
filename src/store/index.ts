@@ -18,8 +18,6 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    nameOfEntries: (state) => {
-      return state.entries.map((entry: any) => `${entry.firstName} ${entry.lastName}`);
-    },
+    nameOfEntries: (state) => state.entries.map((entry: any) => `${entry.firstName} ${entry.lastName}`),
   },
 });

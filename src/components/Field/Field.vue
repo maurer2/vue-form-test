@@ -6,7 +6,7 @@
 
     <template v-if="type === 'email' || type === 'text'">
       <input
-        class="field"
+        class="input"
         :name="name"
         :id="id"
         :value="value"
@@ -20,7 +20,7 @@
     <template v-if="type === 'textarea'">
       <textarea
         class="textarea"
-        cols="40"
+        cols="20"
         rows="10"
         :name="name"
         :id="id"
@@ -73,6 +73,7 @@ export default class Field extends Vue {
 
   static isValidEmailField(fieldValue: string): boolean {
     // https://emailregex.com/
+    // eslint-disable-next-line
     const emailRegex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
     const isValid = emailRegex.test(fieldValue);
 
@@ -100,7 +101,21 @@ export default class Field extends Vue {
 </script>
 
 <style scoped lang="scss">
+.field {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+  & + & {
+    margin-top: 0.5rem;
+  }
+}
+
 .label {
+  margin: 0.5rem 0;
+  flex-basis: 10rem;
+  flex-grow: 0;
+  align-self: baseline;
   font-weight: bold;
 
   &--is-required:after {
@@ -108,7 +123,14 @@ export default class Field extends Vue {
   }
 }
 
+.input,
+.textarea {
+  flex-grow: 1;
+}
+
 .error {
-  color: red;
+  margin: 0.5rem 0;
+  flex-grow: 1;
+  color: $orange;
 }
 </style>
