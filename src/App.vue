@@ -1,22 +1,37 @@
 <template>
-  <div id="container" class="container">
-    <Form />
-  </div>
+  <article id="container" class="container">
+    <h1>App</h1>
+
+    <section class="section" v-if="showForm">
+      <h2>Form</h2>
+      <Form @addNewEntry="handleNewEntry" />
+    </section>
+
+    <section class="section" v-if="showSummary">
+      <h2>Summary</h2>
+      <Summary />
+    </section>
+  </article>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import Form from '@/components/Form/Form.vue';
-// import Summary from '@/components/Summary/Summary.vue';
+import Summary from '@/components/Summary/Summary.vue';
 
 @Component({
   components: {
     Form,
-    // Summary,
+    Summary,
   },
 })
 export default class App extends Vue {
-  
+  private showForm: boolean = true;
+  private showSummary: boolean = true;
+
+  handleNewEntry(newEntry: { [key: string]: string }): void {
+    console.log(newEntry);
+  }
 }
 </script>
 

@@ -56,14 +56,16 @@ export default class Field extends Vue {
 
   @Watch('value')
   handleValueChange(newValue: string): void {
-    const { id, type } = this;
+    const { id, type, isValid: oldIsValid } = this;
     const eventName: string = 'isValidChange';
 
     const newIsValid = (type === 'text')
       ? Field.isValidTextField(newValue)
       : Field.isValidEmailField(newValue);
 
-    this.$emit(eventName, newIsValid, id);
+    if (newIsValid !== oldIsValid) {
+      this.$emit(eventName, newIsValid, id);
+    }
   }
 }
 </script>

@@ -29,7 +29,7 @@
       label="Email label"
       type="email"
       v-model.trim="email"
-      :is-valid="fieldsValidity.lastName"
+      :is-valid="fieldsValidity.email"
       @isValidChange="handleValidChange"
     />
     <pre>
@@ -72,7 +72,13 @@ export default class Form extends Vue {
       return;
     }
 
-    this.$emit('entryAdded', this.firstName);
+    const { firstName, lastName, email } = this;
+
+    this.$emit('addNewEntry', {
+      firstName,
+      lastName,
+      email,
+    });
   }
 
   handleValidChange(newIsValid: boolean, id: string): void {
@@ -84,10 +90,6 @@ export default class Form extends Vue {
 
     const newFieldsValidity = { ...this.fieldsValidity, [id]: newIsValid };
     this.fieldsValidity = newFieldsValidity;
-  }
-
-  getFormData(): any {
-    console.log(this);
   }
 }
 </script>
