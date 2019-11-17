@@ -9,6 +9,7 @@
 
     <section class="section" v-if="showSummary">
       <h2>Summary</h2>
+      {{ entries.length }}
       <Summary />
     </section>
   </article>
@@ -29,8 +30,13 @@ export default class App extends Vue {
   private showForm: boolean = true;
   private showSummary: boolean = true;
 
+  get entries() {
+    return this.$store.state.entries;
+  }
+
   handleNewEntry(newEntry: { [key: string]: string }): void {
     console.log(newEntry);
+    this.$store.commit('addEntry', newEntry);
   }
 }
 </script>

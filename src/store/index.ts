@@ -5,11 +5,16 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    entries: [] as any,
   },
   mutations: {
+    addEntry(state, entry) {
+      state.entries.push(entry);
+    },
   },
   actions: {
-  },
-  modules: {
+    addEntry({ commit }, entry) {
+      commit('addEntry', entry);
+    },
   },
 });
