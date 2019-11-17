@@ -7,22 +7,34 @@
   >
     <Field
       name="First name"
+      id="firstName"
       label="Name label"
-      v-model.trim="firstName"
       type="text"
+      v-model.trim="firstName"
+      :is-valid="fieldsValidity.firstName"
+      @isValidChange="handleValidChange"
     />
     <Field
       name="Last name"
+      id="lastName"
       label="Last label"
-      v-model.trim="lastName"
       type="text"
+      v-model.trim="lastName"
+      :is-valid="fieldsValidity.lastName"
+      @isValidChange="handleValidChange"
     />
     <Field
       name="Email"
+      id="email"
       label="Email label"
-      v-model.trim="email"
       type="email"
+      v-model.trim="email"
+      :is-valid="fieldsValidity.lastName"
+      @isValidChange="handleValidChange"
     />
+    <pre>
+      {{ fieldsValidity }}
+    </pre>
     <button class="button" type="submit" :disabled="!isSubmittable">
       Add
     </button>
@@ -43,6 +55,11 @@ export default class Form extends Vue {
   private lastName: string = '';
   private email: string = '';
   private isSubmittable: boolean = false;
+  private fieldsValidity: { [key: string]: boolean } = {
+    firstName: false,
+    lastName: false,
+    email: false,
+  }
 
   handleSubmit(): void {
     if (!this.isSubmittable) {
@@ -50,6 +67,19 @@ export default class Form extends Vue {
     }
 
     this.$emit('entryAdded', this.firstName);
+  }
+
+  handleValidChange(newIsValid: boolean, id: string): void {
+    // const oldIsValid = this.fieldsValidity[id];
+
+    if (typeof newIsValid !== 'boolean') {
+      return;
+    }
+
+    // eslint-disable-next-line
+    this.fieldsValidity = Object.assign({}, this.fieldsValidity, {
+      [id]: newIsValid,
+    });
   }
 
   getFormData(): any {

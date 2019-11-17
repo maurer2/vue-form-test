@@ -1,5 +1,5 @@
 <template>
-  <div class="field" :class="{ 'field--is-invalid': isInvalid }">
+  <div class="field" :class="{ 'field--is-invalid': !isValid }">
     <label class="label" :for="name">
       {{ label }}
     </label>
@@ -8,10 +8,11 @@
       type="text"
       placeholder="Enter value"
       :name="name"
+      :id="id"
       :value="value"
       @input="handleInput"
     >
-    <p class="error" v-if="isInvalid">
+    <p class="error" v-if="!isValid">
       Field invalid
     </p>
   </div>
@@ -24,11 +25,11 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 @Component
 export default class Field extends Vue {
   @Prop() private name!: string;
+  @Prop() private id!: string;
   @Prop() private label!: string;
   @Prop() private value!: string;
+  @Prop() private isValid!: boolean;
   @Prop() private type!: 'text' | 'email';
-
-  private isInvalid: boolean = true;
 
   handleInput(event: Event): void {
     if (!event) {
@@ -55,21 +56,20 @@ export default class Field extends Vue {
 
   @Watch('value')
   onValueChange(newValue: string) {
-    let newIsInvalid = this.isInvalid;
+    const { id, type } = this;
+    const eventName: string = 'isValidChange';
 
-    if (this.type === 'text') {
-      const validity = Field.isValidTextField(newValue);
+    if (type === 'text') {
+      const newIsValid = Field.isValidTextField(newValue);
 
-      newIsInvalid = !validity;
+      this.$emit(eventName, newIsValid, id);
     }
 
-    if (this.type === 'email') {
-      const validity = Field.isValidEmailField(newValue);
+    if (type === 'email') {
+      const newIsValid = Field.isValidEmailField(newValue);
 
-      newIsInvalid = !validity;
+      this.$emit(eventName, newIsValid, id);
     }
-
-    this.isInvalid = newIsInvalid;
   }
 }
 </script>
