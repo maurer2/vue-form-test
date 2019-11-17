@@ -1,28 +1,23 @@
 <template>
   <div id="container" class="container">
-    <Form>
-      <Field
-        name="Name"
-        label="Label"
-        value="Value"
-        :is-invalid="true"
-      />
-    </Form>
+    <Form />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Form from './components/Form/Form.vue';
-import Field from './components/Field/Field.vue';
+import Form from '@/components/Form/Form.vue';
+// import Summary from '@/components/Summary/Summary.vue';
 
 @Component({
   components: {
-    Field,
     Form,
+    // Summary,
   },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  
+}
 </script>
 
 <style lang="scss">

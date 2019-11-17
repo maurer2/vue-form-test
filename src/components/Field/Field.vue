@@ -28,7 +28,7 @@ export default class Field extends Vue {
   @Prop() private value!: string;
   @Prop({ default: false }) private isInvalid!: boolean;
 
-  handleInput(event: InputEvent): void {
+  handleInput(event: Event): void {
     if (!event) {
       return;
     }
