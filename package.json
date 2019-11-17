@@ -8,7 +8,8 @@
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "run:dist": "serve -s dist"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^2.7.0",
@@ -16,6 +17,7 @@
     "core-js": "^3.3.2",
     "eslint-import-resolver-babel-module": "^5.1.0",
     "normalize.css": "^8.0.1",
+    "serve": "^11.2.0",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.3.0",
