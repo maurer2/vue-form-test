@@ -3,6 +3,7 @@
     <label class="label" :for="id">
       {{ label }}
     </label>
+
     <input
       class="field"
       type="text"
@@ -12,7 +13,8 @@
       :value="value"
       @input="handleInput"
     >
-    <p class="error" v-if="!isValid">
+
+    <p class="error" v-if="!isValid && userHasInteractedWithForm">
       Field invalid
     </p>
   </div>
@@ -31,7 +33,11 @@ export default class Field extends Vue {
   @Prop() private isValid!: boolean;
   @Prop() private type!: 'text' | 'email';
 
+  private userHasInteractedWithForm: boolean = false;
+
   handleInput(event: Event): void {
+    this.userHasInteractedWithForm = true;
+
     if (!event) {
       return;
     }
