@@ -1,7 +1,9 @@
 <template>
   <article id="container" class="container">
     <header class="header">
-      <h1 class="title">Salesforce lite</h1>
+      <h1 class="title">
+        Sailshorse
+      </h1>
       <button
         class="button"
         type="button"
@@ -17,12 +19,10 @@
     </header>
 
     <section class="section" v-if="formIsVisible">
-      <h2>Form</h2>
       <Form @addNewEntry="handleNewEntry" />
     </section>
 
     <section class="section">
-      <h2>Summary ({{ entries.length }} entries)</h2>
       <Summary />
     </section>
   </article>
@@ -46,8 +46,13 @@ export default class App extends Vue {
     return this.$store.state.entries;
   }
 
+  mounted() {
+    this.$store.commit('addEntry', {"firstName":"wefwef","lastName":"wfwe@wefew","email":"wfwef@frewfew.de"});
+  }
+
   handleNewEntry(newEntry: { [key: string]: string }): void {
     this.$store.commit('addEntry', newEntry);
+    this.formIsVisible = false;
   }
 
   handleFormVisbilityToggle() {

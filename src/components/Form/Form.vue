@@ -5,6 +5,8 @@
     method="post"
     @submit.prevent="handleSubmit"
   >
+    <h2>Form</h2>
+
     <Field
       name="First name"
       id="firstName"
@@ -14,6 +16,7 @@
       :is-valid="fieldsValidity.firstName"
       @isValidChange="handleValidChange"
     />
+
     <Field
       name="Last name"
       id="lastName"
@@ -23,6 +26,7 @@
       :is-valid="fieldsValidity.lastName"
       @isValidChange="handleValidChange"
     />
+
     <Field
       name="Email"
       id="email"
@@ -32,11 +36,13 @@
       :is-valid="fieldsValidity.email"
       @isValidChange="handleValidChange"
     />
+
     <pre>
       {{ fieldsValidity }}
     </pre>
+
     <button class="button" type="submit" :disabled="!isSubmittable">
-      Add
+      Add entry
     </button>
   </form>
 </template>
