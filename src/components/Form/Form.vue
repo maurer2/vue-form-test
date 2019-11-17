@@ -54,11 +54,17 @@ export default class Form extends Vue {
   private firstName: string = '';
   private lastName: string = '';
   private email: string = '';
-  private isSubmittable: boolean = false;
   private fieldsValidity: { [key: string]: boolean } = {
     firstName: false,
     lastName: false,
     email: false,
+  }
+
+  get isSubmittable(): boolean {
+    const fieldValues = Object.values(this.fieldsValidity);
+    const allFieldsAreValid = fieldValues.every((field: boolean) => field);
+
+    return allFieldsAreValid;
   }
 
   handleSubmit(): void {
@@ -76,10 +82,8 @@ export default class Form extends Vue {
       return;
     }
 
-    // eslint-disable-next-line
-    this.fieldsValidity = Object.assign({}, this.fieldsValidity, {
-      [id]: newIsValid,
-    });
+    const newFieldsValidity = { ...this.fieldsValidity, [id]: newIsValid };
+    this.fieldsValidity = newFieldsValidity;
   }
 
   getFormData(): any {

@@ -1,6 +1,6 @@
 <template>
   <div class="field" :class="{ 'field--is-invalid': !isValid }">
-    <label class="label" :for="name">
+    <label class="label" :for="id">
       {{ label }}
     </label>
     <input
@@ -55,21 +55,15 @@ export default class Field extends Vue {
   }
 
   @Watch('value')
-  onValueChange(newValue: string) {
+  handleValueChange(newValue: string): void {
     const { id, type } = this;
     const eventName: string = 'isValidChange';
 
-    if (type === 'text') {
-      const newIsValid = Field.isValidTextField(newValue);
+    const newIsValid = (type === 'text')
+      ? Field.isValidTextField(newValue)
+      : Field.isValidEmailField(newValue);
 
-      this.$emit(eventName, newIsValid, id);
-    }
-
-    if (type === 'email') {
-      const newIsValid = Field.isValidEmailField(newValue);
-
-      this.$emit(eventName, newIsValid, id);
-    }
+    this.$emit(eventName, newIsValid, id);
   }
 }
 </script>
