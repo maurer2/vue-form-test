@@ -1,15 +1,28 @@
 <template>
   <article id="container" class="container">
-    <h1>App</h1>
+    <header class="header">
+      <h1 class="title">Salesforce lite</h1>
+      <button
+        class="button"
+        type="button"
+        @click="handleFormVisbilityToggle"
+      >
+        <span class="text" v-if="formIsVisible">
+          Hide form
+        </span>
+        <span class="text" v-else>
+          Show form
+        </span>
+      </button>
+    </header>
 
-    <section class="section" v-if="showForm">
+    <section class="section" v-if="formIsVisible">
       <h2>Form</h2>
       <Form @addNewEntry="handleNewEntry" />
     </section>
 
-    <section class="section" v-if="showSummary">
-      <h2>Summary</h2>
-      {{ entries.length }}
+    <section class="section">
+      <h2>Summary ({{ entries.length }} entries)</h2>
       <Summary />
     </section>
   </article>
@@ -27,16 +40,18 @@ import Summary from '@/components/Summary/Summary.vue';
   },
 })
 export default class App extends Vue {
-  private showForm: boolean = true;
-  private showSummary: boolean = true;
+  private formIsVisible: boolean = true;
 
   get entries() {
     return this.$store.state.entries;
   }
 
   handleNewEntry(newEntry: { [key: string]: string }): void {
-    console.log(newEntry);
     this.$store.commit('addEntry', newEntry);
+  }
+
+  handleFormVisbilityToggle() {
+    this.formIsVisible = !this.formIsVisible;
   }
 }
 </script>
