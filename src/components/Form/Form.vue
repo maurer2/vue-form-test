@@ -39,7 +39,7 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import { FieldType } from '@/types.ts';
+import { FieldType, FormTransferType } from '@/types.ts';
 import Field from '../Field/Field.vue';
 import formdata from './formdata';
 
@@ -49,7 +49,7 @@ import formdata from './formdata';
   },
 })
 export default class Form extends Vue {
-  private fields = formdata;
+  private fields: FieldType[] = formdata;
 
   get isSubmittable(): boolean {
     const allFieldsAreValid = this.fields.every((field: FieldType) => field.isValid);
@@ -62,7 +62,19 @@ export default class Form extends Vue {
       return;
     }
 
-    // this.$emit('addNewEntry', this.fields);
+    const formValues: FormTransferType = this.fields.reduce((total: any, field: FieldType) => {
+      const newTotal = total;
+      const key = field.id;
+      const { value } = field;
+
+      if (newTotal[key] === undefined) {
+        newTotal[key] = value;
+      }
+
+      return newTotal;
+    }, {});
+
+    this.$emit('addNewEntry', formValues);
   }
 
   handleValidChange(newIsValid: boolean, id: string): void {
@@ -70,13 +82,13 @@ export default class Form extends Vue {
       return;
     }
 
-    const newFields = [...this.fields];
-    const fieldToUpdateIndex: number = newFields.findIndex((field) => field.id === id);
+    const fieldToUpdateIndex: number = this.fields.findIndex((field) => field.id === id);
 
     if (fieldToUpdateIndex === -1) {
       return;
     }
 
+    const newFields = [...this.fields];
     newFields[fieldToUpdateIndex].isValid = newIsValid;
 
     this.fields = newFields;
