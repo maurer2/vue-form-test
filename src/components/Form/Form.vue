@@ -39,25 +39,8 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
+import { FieldType } from '@/types.ts';
 import Field from '../Field/Field.vue';
-
-type FieldType = {
-  value: string;
-  name: string;
-  id: string;
-  label: string;
-  type: string;
-  placeholder: string;
-  isValid: boolean;
-  isRequired: boolean;
-}
-
-type FormTransferType = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  customerQuery?: string;
-}
 
 @Component({
   components: {
@@ -91,7 +74,7 @@ export default class Form extends Vue {
       name: 'Email',
       id: 'email',
       label: 'Email',
-      type: 'text',
+      type: 'email',
       placeholder: 'Please enter your email',
       isValid: false,
       isRequired: true,
