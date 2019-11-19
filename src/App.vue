@@ -34,6 +34,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { FormTransferType } from '@/types.ts';
 import Form from '@/components/Form/Form.vue';
 import Summary from '@/components/Summary/Summary.vue';
 
@@ -52,17 +53,17 @@ export default class App extends Vue {
       lastName: 'Damon',
       email: 'catD@mon.com',
       customerQuery: '',
-    });
+    } as FormTransferType);
 
     this.$store.commit('addEntry', {
       firstName: 'Catrick',
       lastName: 'Swayze',
       email: 'catrick@swayze.com',
       customerQuery: '',
-    });
+    } as FormTransferType);
   }
 
-  handleNewEntry(newEntry: { [key: string]: string }): void {
+  handleNewEntry(newEntry: FormTransferType): void {
     this.$store.commit('addEntry', newEntry);
     this.formIsVisible = false;
   }
