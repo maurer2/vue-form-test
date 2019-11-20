@@ -3,11 +3,13 @@
     <h2 class="title">
       Summary
     </h2>
+
     <template v-if="entries.length === 0">
       <p class="message">
         No entries found.
       </p>
     </template>
+
     <template v-else>
       <ul class="list">
         <template v-for="(entry, index) in entries">
@@ -22,41 +24,16 @@
             </button>
 
             <template v-if="activeEntry === index">
-              <dl class="detail">
-                <dd class="key">
-                  First name
-                </dd>
-                <dd class="value">
-                  {{ entry.firstName }}
-                </dd>
-              </dl>
-
-              <dl class="detail">
-                <dd class="key">
-                  Last name
-                </dd>
-                <dd class="value">
-                  {{ entry.lastName }}
-                </dd>
-              </dl>
-
-              <dl class="detail">
-                <dd class="key">
-                  E-mail
-                </dd>
-                <dd class="value">
-                  {{ entry.email }}
-                </dd>
-              </dl>
-
-              <dl class="detail" v-if="entry.customerQuery.length > 0">
-                <dd class="key">
-                  Query
-                </dd>
-                <dd class="value">
-                  {{ entry.customerQuery }}
-                </dd>
-              </dl>
+              <template v-for="(item, key) in itemsToShow">
+                <dl class="detail" :key="item">
+                  <dd class="key">
+                    {{ itemsToShow[key] }}
+                  </dd>
+                  <dd class="value">
+                    {{ entry[key] }}
+                  </dd>
+                </dl>
+              </template>
             </template>
           </li>
         </template>
@@ -72,18 +49,19 @@ import { EntryType } from '../../types';
 @Component
 export default class Field extends Vue {
   private activeEntry: number = (this.entries.length > 0) ? 0 : -1;
+  private itemsToShow: { [key: string]: string } = {
+    firstName: 'First name',
+    lastName: 'Last name',
+    email: 'Email',
+    customerQuery: 'Customer query',
+  };
 
   get entries(): EntryType[] {
     return this.$store.state.entries;
   }
 
   handleClick(index: number): void {
-    if (index === this.activeEntry) {
-      this.activeEntry = -1;
-      return;
-    }
-
-    this.activeEntry = index;
+    this.activeEntry = (index === this.activeEntry) ? -1 : index;
   }
 }
 </script>
