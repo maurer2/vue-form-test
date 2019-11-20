@@ -23,3 +23,5 @@ export type FormTransferType = {
   email: string;
   customerQuery?: string;
 }
+
+export type EntryType = Partial<FormTransferType>;
