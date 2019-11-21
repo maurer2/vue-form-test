@@ -3,82 +3,65 @@
     <h2 class="title">
       Summary
     </h2>
-    <p class="message" v-if="entries.length === 0">
-      No entries found.
-    </p>
-    <ul class="list" v-else>
-      <template v-for="(entry, index) in entries">
-        <li class="entry" :class="{ 'entry--is-active' : (index === activeEntry) }" :key="index">
-          <button
-            type="button"
-            class="button"
-            :class="{ 'button--is-active' : (index === activeEntry) }"
-            @click="handleClick(index)"
-          >
-            {{ entry.firstName }} {{ entry.lastName }}
-          </button>
 
-          <template v-if="activeEntry === index">
-            <dl class="detail">
-              <dd class="key">
-                First name
-              </dd>
-              <dd class="value">
-                {{ entry.firstName }}
-              </dd>
-            </dl>
+    <template v-if="entries.length === 0">
+      <p class="message">
+        No entries found.
+      </p>
+    </template>
 
-            <dl class="detail">
-              <dd class="key">
-                Last name
-              </dd>
-              <dd class="value">
-                {{ entry.lastName }}
-              </dd>
-            </dl>
+    <template v-else>
+      <ul class="list">
+        <template v-for="(entry, index) in entries">
+          <li class="entry" :class="{ 'entry--is-active' : (index === activeEntry) }" :key="index">
+            <button
+              type="button"
+              class="button"
+              :class="{ 'button--is-active' : (index === activeEntry) }"
+              @click="handleClick(index)"
+            >
+              {{ entry.firstName }} {{ entry.lastName }}
+            </button>
 
-            <dl class="detail">
-              <dd class="key">
-                E-mail
-              </dd>
-              <dd class="value">
-                {{ entry.email }}
-              </dd>
-            </dl>
-
-            <dl class="detail" v-if="entry.customerQuery.length > 0">
-              <dd class="key">
-                Query
-              </dd>
-              <dd class="value">
-                {{ entry.customerQuery }}
-              </dd>
-            </dl>
-          </template>
-        </li>
-      </template>
-    </ul>
+            <template v-if="activeEntry === index">
+              <template v-for="(item, key) in itemsToShow">
+                <dl class="detail" :key="item">
+                  <dd class="key">
+                    {{ itemsToShow[key] }}
+                  </dd>
+                  <dd class="value">
+                    {{ entry[key] }}
+                  </dd>
+                </dl>
+              </template>
+            </template>
+          </li>
+        </template>
+      </ul>
+    </template>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
+import { EntryType } from '../../types';
 
 @Component
 export default class Field extends Vue {
   private activeEntry: number = (this.entries.length > 0) ? 0 : -1;
+  private itemsToShow: { [key: string]: string } = {
+    firstName: 'First name',
+    lastName: 'Last name',
+    email: 'Email',
+    customerQuery: 'Customer query',
+  };
 
-  get entries() {
+  get entries(): EntryType[] {
     return this.$store.state.entries;
   }
 
   handleClick(index: number): void {
-    if (index === this.activeEntry) {
-      this.activeEntry = -1;
-      return;
-    }
-
-    this.activeEntry = index;
+    this.activeEntry = (index === this.activeEntry) ? -1 : index;
   }
 }
 </script>

@@ -34,8 +34,7 @@ describe('Form', () => {
         lastName: false,
         email: false,
         customerQuery: false,
-      },
-    });
+      } });
 
     expect(wrapper.vm.isSubmittable).toBe(false);
 
@@ -44,8 +43,7 @@ describe('Form', () => {
         lastName: true,
         email: true,
         customerQuery: true,
-      },
-    });
+      } });
 
     expect(wrapper.vm.isSubmittable).toBe(true);
   });

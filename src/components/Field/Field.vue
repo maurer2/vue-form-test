@@ -81,7 +81,9 @@ export default class Field extends Vue {
 
   @Watch('value')
   handleValueChange(newValue: string): void {
-    const { id, type, isValid: oldIsValid } = this;
+    const {
+ id, type, isValid: oldIsValid,
+} = this;
     const eventName: string = 'isValidChange';
 
     if (type === 'textarea') {

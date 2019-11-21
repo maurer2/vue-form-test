@@ -10,52 +10,21 @@
       method="post"
       @submit.prevent="handleSubmit"
     >
-      <Field
-        name="First name"
-        id="firstName"
-        label="Name label"
-        type="text"
-        placeholder="Please enter your first name"
-        v-model.trim="firstName"
-        :is-valid="fieldsValidity.firstName"
-        :is-required="fieldsMandatoryValues.firstName"
-        @isValidChange="handleValidChange"
-      />
-
-      <Field
-        name="Last name"
-        id="lastName"
-        label="Last label"
-        type="text"
-        placeholder="Please enter your last name"
-        v-model.trim="lastName"
-        :is-valid="fieldsValidity.lastName"
-        :is-required="fieldsMandatoryValues.lastName"
-        @isValidChange="handleValidChange"
-      />
-
-      <Field
-        name="Email"
-        id="email"
-        label="Email label"
-        type="email"
-        placeholder="Please enter your email"
-        v-model.trim="email"
-        :is-valid="fieldsValidity.email"
-        :is-required="fieldsMandatoryValues.email"
-        @isValidChange="handleValidChange"
-      />
-
-      <Field
-        name="Customer Query"
-        id="customerQuery"
-        label="Customer query"
-        type="textarea"
-        placeholder="Please enter your customer query"
-        v-model.trim="customerQuery"
-        :is-required="fieldsMandatoryValues.customerQuery"
-        @isValidChange="handleValidChange"
-      />
+      <template v-for="field in fields">
+        <Field
+          :key="field.id"
+          :value="field.value"
+          :name="field.name"
+          :id="field.id"
+          :label="field.label"
+          :type="field.type"
+          :placeholder="field.placeholder"
+          :is-valid="field.isValid"
+          :is-required="field.isRequired"
+          v-model.trim="field.value"
+          @isValidChange="handleValidChange"
+        />
+      </template>
 
       <p class="hint">
         * fields are mandatory
@@ -70,7 +39,9 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
+import { FieldType, FormTransferType } from '../../types';
 import Field from '../Field/Field.vue';
+import formdata from './formdata';
 
 @Component({
   components: {
@@ -78,26 +49,10 @@ import Field from '../Field/Field.vue';
   },
 })
 export default class Form extends Vue {
-  private firstName: string = '';
-  private lastName: string = '';
-  private email: string = '';
-  private customerQuery: string = '';
-  private fieldsValidity: { [key: string]: boolean } = {
-    firstName: false,
-    lastName: false,
-    email: false,
-    customerQuery: true,
-  }
-  private fieldsMandatoryValues: { [key: string]: boolean } = {
-    firstName: true,
-    lastName: true,
-    email: true,
-    customerQuery: false,
-  }
+  private fields: FieldType[] = formdata;
 
   get isSubmittable(): boolean {
-    const fieldValues = Object.values(this.fieldsValidity);
-    const allFieldsAreValid = fieldValues.every((field: boolean) => field);
+    const allFieldsAreValid = this.fields.every((field: FieldType) => field.isValid);
 
     return allFieldsAreValid;
   }
@@ -107,14 +62,19 @@ export default class Form extends Vue {
       return;
     }
 
-    const { firstName, lastName, email, customerQuery } = this;
+    const formValues: FormTransferType = this.fields.reduce((total: any, field: FieldType) => {
+      const newTotal = total;
+      const key = field.id;
+      const { value } = field;
 
-    this.$emit('addNewEntry', {
-      firstName,
-      lastName,
-      email,
-      customerQuery,
-    });
+      if (newTotal[key] === undefined) {
+        newTotal[key] = value;
+      }
+
+      return newTotal;
+    }, {});
+
+    this.$emit('addNewEntry', formValues);
   }
 
   handleValidChange(newIsValid: boolean, id: string): void {
@@ -122,8 +82,16 @@ export default class Form extends Vue {
       return;
     }
 
-    const newFieldsValidity = { ...this.fieldsValidity, [id]: newIsValid };
-    this.fieldsValidity = newFieldsValidity;
+    const fieldToUpdateIndex: number = this.fields.findIndex((field) => field.id === id);
+
+    if (fieldToUpdateIndex === -1) {
+      return;
+    }
+
+    const newFields = [...this.fields];
+    newFields[fieldToUpdateIndex].isValid = newIsValid;
+
+    this.fields = newFields;
   }
 }
 </script>
