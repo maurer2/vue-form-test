@@ -26,9 +26,9 @@
             <template v-if="activeEntry === index">
               <template v-for="(item, key) in itemsToShow">
                 <dl class="detail" :key="item">
-                  <dd class="key">
+                  <dt class="key">
                     {{ itemsToShow[key] }}
-                  </dd>
+                  </dt>
                   <dd class="value">
                     {{ entry[key] }}
                   </dd>

@@ -29,6 +29,7 @@
         :placeholder="placeholder"
         :required="isRequired"
         @input="handleInput"
+        @input.once="handleInitalInput"
       />
     </template>
 
