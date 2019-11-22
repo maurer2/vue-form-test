@@ -1,9 +1,11 @@
-export interface Form {
+export type Form = {
   hasBeenSubmitted: boolean;
 }
 
-export interface Input {
-  type: 'text' | 'email';
+export enum InputType {
+  Text = 'text',
+  Email = 'email',
+  Textarea = 'textarea',
 }
 
 export type FieldType = {
@@ -11,7 +13,7 @@ export type FieldType = {
   name: string;
   id: string;
   label: string;
-  type: string;
+  type: InputType;
   placeholder: string;
   isValid: boolean;
   isRequired: boolean;

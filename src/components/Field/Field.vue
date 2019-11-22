@@ -39,17 +39,18 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { FieldType, InputType } from '../../types';
 
 @Component
 export default class Field extends Vue {
-  @Prop() private name!: string;
-  @Prop() private id!: string;
-  @Prop() private label!: string;
-  @Prop() private value!: string;
-  @Prop() private placeholder!: string;
-  @Prop() private isValid!: boolean;
-  @Prop() private isRequired!: boolean;
-  @Prop() private type!: 'text' | 'email' | 'textarea';
+  @Prop() private name!: FieldType['name'];
+  @Prop() private id!: FieldType['id'];
+  @Prop() private label!: FieldType['label'];
+  @Prop() private value!: FieldType['value'];
+  @Prop() private placeholder!: FieldType['placeholder'];
+  @Prop() private isValid!: FieldType['isValid'];
+  @Prop() private isRequired!: FieldType['isRequired'];
+  @Prop() private type!: FieldType['type'];
 
   private userHasInteractedWithForm: boolean = false;
 
@@ -81,16 +82,14 @@ export default class Field extends Vue {
 
   @Watch('value')
   handleValueChange(newValue: string): void {
-    const {
- id, type, isValid: oldIsValid,
-} = this;
+    const { id, type, isValid: oldIsValid } = this;
     const eventName: string = 'isValidChange';
 
-    if (type === 'textarea') {
+    if (type === InputType.Textarea) {
       return;
     }
 
-    const newIsValid = (type === 'text')
+    const newIsValid = (type === InputType.Text)
       ? Field.isValidTextField(newValue)
       : Field.isValidEmailField(newValue);
 
