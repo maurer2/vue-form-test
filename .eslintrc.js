@@ -38,6 +38,7 @@ module.exports = {
     }],
     'vue/order-in-components': 'off',
     'lines-between-class-members': 'off',
+    'class-methods-use-this': 'off',
   },
   settings: {
     'import/parser': 'babel-eslint',

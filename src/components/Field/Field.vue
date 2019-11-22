@@ -14,6 +14,7 @@
         :placeholder="placeholder"
         :required="isRequired"
         @input="handleInput"
+        @input.once="handleInitalInput"
       >
     </template>
 
@@ -38,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
 import { FieldType, InputType } from '../../types';
 
 @Component
@@ -54,30 +55,21 @@ export default class Field extends Vue {
 
   private userHasInteractedWithForm: boolean = false;
 
-  handleInput(event: Event): void {
-    this.userHasInteractedWithForm = true;
-
-    if (!event) {
-      return;
-    }
-
-    const { target } = event;
-    const newValue = (target as HTMLInputElement).value;
-
-    this.$emit('input', newValue);
-  }
-
-  static isValidTextField(fieldValue: string): boolean {
+  private isValidTextField(fieldValue: string): boolean {
     return fieldValue.length > 0;
   }
 
-  static isValidEmailField(fieldValue: string): boolean {
+  private isValidEmailField(fieldValue: string): boolean {
     // https://emailregex.com/
     // eslint-disable-next-line
     const emailRegex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
     const isValid = emailRegex.test(fieldValue);
 
     return isValid;
+  }
+
+  handleInitalInput(): void {
+    this.userHasInteractedWithForm = true;
   }
 
   @Watch('value')
@@ -90,12 +82,20 @@ export default class Field extends Vue {
     }
 
     const newIsValid = (type === InputType.Text)
-      ? Field.isValidTextField(newValue)
-      : Field.isValidEmailField(newValue);
+      ? this.isValidTextField(newValue)
+      : this.isValidEmailField(newValue);
 
     if (newIsValid !== oldIsValid) {
       this.$emit(eventName, newIsValid, id);
     }
+  }
+
+  @Emit('input')
+  handleInput(event: Event): string {
+    const { target } = event;
+    const newValue = (target as HTMLInputElement).value;
+
+    return newValue;
   }
 }
 </script>

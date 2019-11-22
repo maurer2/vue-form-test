@@ -39,7 +39,7 @@ const fields: FieldType[] = [
     type: InputType.Textarea,
     placeholder: 'Please enter your customer query',
     isValid: true,
-    isRequired: true,
+    isRequired: false,
   },
 ];
 
