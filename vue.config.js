@@ -1,5 +1,3 @@
-const path = require('path');
-
 module.exports = {
   lintOnSave: false,
   css: {
@@ -10,11 +8,6 @@ module.exports = {
     },
   },
   configureWebpack: {
-    resolve: {
-      alias: {
-        '@': path.resolve(__dirname, './src/'),
-      },
-    },
     output: {
       filename: '[name].js',
       chunkFilename: '[name].js',

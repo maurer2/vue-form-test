@@ -8,6 +8,12 @@ export enum InputType {
   Textarea = 'textarea',
 }
 
+export enum InputType2 {
+  Text = 'text',
+  Email = 'email',
+  Textarea = 'textarea',
+}
+
 export type FieldType = {
   value: string;
   name: string;

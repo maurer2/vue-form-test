@@ -39,11 +39,26 @@ module.exports = {
     'vue/order-in-components': 'off',
     'lines-between-class-members': 'off',
     'class-methods-use-this': 'off',
+    // '@typescript-eslint/no-unused-vars': 'warn',
+
   },
   settings: {
-    'import/parser': 'babel-eslint',
     'import/resolver': {
-      'eslint-import-resolver-babel-module': { },
+      'babel-module': {},
+      node: {
+        paths: [
+          './src',
+        ],
+      },
     },
   },
+  // https://github.com/typescript-eslint/typescript-eslint/issues/46#issuecomment-470486034
+  overrides: [
+    {
+      files: ['*.vue', '*.ts', '*.tsx'],
+      rules: {
+        '@typescript-eslint/no-unused-vars': [2, { args: 'none' }],
+      },
+    },
+  ],
 };

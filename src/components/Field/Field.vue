@@ -41,7 +41,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
-import { FieldType, InputType } from '../../types';
+import { FieldType, InputType } from '@/types';
 
 @Component
 export default class Field extends Vue {
@@ -75,7 +75,9 @@ export default class Field extends Vue {
 
   @Watch('value')
   handleValueChange(newValue: string): void {
-    const { id, type, isValid: oldIsValid } = this;
+    const {
+ id, type, isValid: oldIsValid,
+} = this;
     const eventName: string = 'isValidChange';
 
     if (type === InputType.Textarea) {

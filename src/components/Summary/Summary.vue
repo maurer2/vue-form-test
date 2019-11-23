@@ -44,7 +44,7 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import { EntryType } from '../../types';
+import { EntryType } from '@/types';
 
 @Component
 export default class Field extends Vue {
