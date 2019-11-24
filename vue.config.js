@@ -8,6 +8,11 @@ module.exports = {
     },
   },
   configureWebpack: {
+    resolve: {
+      alias: {
+        '@': './src',
+      },
+    },
     output: {
       filename: '[name].js',
       chunkFilename: '[name].js',
