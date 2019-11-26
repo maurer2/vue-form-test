@@ -23,12 +23,17 @@
           :is-required="field.isRequired"
           v-model.trim="field.value"
           @isValidChange="handleValidChange"
+          @inputChange="handleInputChange"
         />
       </template>
 
       <p class="hint">
         * fields are mandatory
       </p>
+
+      <pre>
+        {{ fields }}
+      </pre>
 
       <button class="button" type="submit" :disabled="!isSubmittable">
         Add entry
@@ -57,7 +62,7 @@ export default class Form extends Vue {
     return allFieldsAreValid;
   }
 
-  handleSubmit(): void {
+  private handleSubmit(): void {
     if (!this.isSubmittable) {
       return;
     }
@@ -77,7 +82,7 @@ export default class Form extends Vue {
     this.$emit('addNewEntry', formValues);
   }
 
-  handleValidChange(newIsValid: boolean, id: string): void {
+  private handleValidChange(newIsValid: boolean, id: string): void {
     if (typeof newIsValid !== 'boolean') {
       return;
     }
@@ -90,6 +95,23 @@ export default class Form extends Vue {
 
     const newFields = [...this.fields];
     newFields[fieldToUpdateIndex].isValid = newIsValid;
+
+    this.fields = newFields;
+  }
+
+  private handleInputChange(newValue: string, id: string): void {
+    if (typeof newValue !== 'string') {
+      return;
+    }
+
+    const fieldToUpdateIndex: number = this.fields.findIndex((field) => field.id === id);
+
+    if (fieldToUpdateIndex === -1) {
+      return;
+    }
+
+    const newFields = [...this.fields];
+    newFields[fieldToUpdateIndex].value = newValue;
 
     this.fields = newFields;
   }

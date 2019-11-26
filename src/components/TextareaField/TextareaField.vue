@@ -1,26 +1,16 @@
 <template>
-  <div class="field">
-    <label class="label" :class="{ 'label--is-required': isRequired }" :for="id">
-      {{ label }}
-    </label>
-
-    <textarea
-      class="textarea"
-      cols="20"
-      rows="10"
-      :name="name"
-      :id="id"
-      :value="value"
-      :placeholder="placeholder"
-      :required="isRequired"
-      @input="handleInput"
-      @input.once="handleInitalInput"
-    />
-
-    <p class="error" v-if="!isValid && userHasInteractedWithForm">
-      Please enter a valid value.
-    </p>
-  </div>
+  <textarea
+    class="textarea"
+    cols="20"
+    rows="10"
+    :name="name"
+    :id="id"
+    :value="value"
+    :placeholder="placeholder"
+    :required="isRequired"
+    @input="handleInput"
+    @input.once="handleInitalInput"
+  />
 </template>
 
 <script lang="ts">

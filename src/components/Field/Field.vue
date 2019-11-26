@@ -4,44 +4,28 @@
       {{ label }}
     </label>
 
-    <template v-if="type === 'email' || type === 'text'">
+    <template v-if="type === 'textarea'">
+      test
+    </template>
+
+    <template v-else>
       <InputField
         class="input"
-        :name="name"
-        :id="id"
-        :value="value"
-        :type="type"
-        :placeholder="placeholder"
-        :required="isRequired"
-        @input="handleInput"
-        @input.once="handleInitalInput"
+        v-bind="$props"
+        @inputChange="handleInputChange"
+        @validityChange="handleValidityChange"
       />
     </template>
 
-    <template v-if="type === 'textarea'">
-      <TextareaField
-        class="textarea"
-        cols="20"
-        rows="10"
-        :name="name"
-        :id="id"
-        :value="value"
-        :placeholder="placeholder"
-        :required="isRequired"
-        @input="handleInput"
-        @input.once="handleInitalInput"
-      />
-    </template>
-
-    <p class="error" v-if="!isValid && userHasInteractedWithForm">
+    <p class="error" v-if="!isValid">
       Please enter a valid value.
     </p>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
-import { FieldType, InputType } from '@/types';
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
+import { FieldType } from '@/types';
 
 import InputField from '@/components/InputField/InputField.vue';
 import TextareaField from '@/components/TextareaField/TextareaField.vue';
@@ -62,53 +46,25 @@ export default class Field extends Vue {
   @Prop() private isRequired!: FieldType['isRequired'];
   @Prop() private type!: FieldType['type'];
 
-  private userHasInteractedWithForm: boolean = false;
+  private hasBeenInteractedWith: boolean = false;
 
-  private isValidTextField(fieldValue: string): boolean {
-    return fieldValue.length > 0;
+  @Emit('isValidChange')
+  handleValidityChange(newValue: boolean): void {
+    const { id } = this;
+
+    console.log("isValidChange", newValue);
+
+    this.$emit('isValidChange', newValue, id);
   }
 
-  private isValidEmailField(fieldValue: string): boolean {
-    // https://emailregex.com/
-    // eslint-disable-next-line
-    const emailRegex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-    const isValid = emailRegex.test(fieldValue);
+  // @Emit('inputChange')
+  handleInputChange(value: string): any {
+    const { id } = this;
 
-    return isValid;
-  }
-
-  handleInitalInput(): void {
-    this.userHasInteractedWithForm = true;
-  }
-
-  @Watch('value')
-  handleValueChange(newValue: string): void {
-    const {
- id, type, isValid: oldIsValid,
-} = this;
-    const eventName: string = 'isValidChange';
-
-    if (type === InputType.Textarea) {
-      return;
-    }
-
-    const newIsValid = (type === InputType.Text)
-      ? this.isValidTextField(newValue)
-      : this.isValidEmailField(newValue);
-
-    if (newIsValid !== oldIsValid) {
-      this.$emit(eventName, newIsValid, id);
-    }
-  }
-
-  @Emit('input')
-  handleInput(event: Event): string {
-    const { target } = event;
-    const newValue = (target as HTMLInputElement).value;
-
-    return newValue;
+    this.$emit('inputChange', value, id);
   }
 }
+
 </script>
 
 <style scoped lang="scss">

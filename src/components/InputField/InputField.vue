@@ -1,25 +1,15 @@
 <template>
-  <div class="field">
-    <label class="label" :class="{ 'label--is-required': isRequired }" :for="id">
-      {{ label }}
-    </label>
-
-    <input
-      class="input"
-      :name="name"
-      :id="id"
-      :value="value"
-      :type="type"
-      :placeholder="placeholder"
-      :required="isRequired"
-      @input="handleInput"
-      @input.once="handleInitalInput"
-    >
-
-    <p class="error" v-if="!isValid && userHasInteractedWithForm">
-      Please enter a valid value.
-    </p>
-  </div>
+  <input
+    class="input"
+    :name="name"
+    :id="id"
+    :value="value"
+    :type="type"
+    :placeholder="placeholder"
+    :required="isRequired"
+    @input="handleInput"
+    @input.once="handleInitalInput"
+  >
 </template>
 
 <script lang="ts">
@@ -52,30 +42,30 @@ export default class InputField extends Vue {
     return isValid;
   }
 
-  handleInitalInput(): void {
+  private handleInitalInput(): void {
     this.hasBeenInteractedWith = true;
   }
 
   @Watch('value')
-  handleValueChange(newValue: string): void {
+  private handleValueChange(newValue: string): void {
     const { id, type, isValid: oldIsValid } = this;
-    const eventName: string = 'isValidChange';
 
     const newIsValid = (type === InputType.Text)
       ? this.isValidTextField(newValue)
       : this.isValidEmailField(newValue);
 
     if (newIsValid !== oldIsValid) {
-      this.$emit(eventName, newIsValid, id);
+      this.$emit('validityChange', newIsValid, id);
     }
   }
 
-  @Emit('input')
-  handleInput(event: Event): string {
+  private handleInput(event: Event): void {
     const { target } = event;
+    const { id } = this;
+
     const newValue = (target as HTMLInputElement).value;
 
-    return newValue;
+    this.$emit('inputChange', newValue, id);
   }
 }
 </script>
