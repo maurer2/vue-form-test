@@ -17,7 +17,7 @@
       />
     </template>
 
-    <p class="error" v-if="!isValid">
+    <p class="error" v-if="!isValid && hasBeenInteractedWith">
       Please enter a valid value.
     </p>
   </div>
@@ -60,6 +60,8 @@ export default class Field extends Vue {
   // @Emit('inputChange')
   handleInputChange(value: string): any {
     const { id } = this;
+
+    this.hasBeenInteractedWith = true;
 
     this.$emit('inputChange', value, id);
   }
