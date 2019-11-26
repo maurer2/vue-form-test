@@ -5,7 +5,7 @@
     </label>
 
     <template v-if="type === 'email' || type === 'text'">
-      <input
+      <InputField
         class="input"
         :name="name"
         :id="id"
@@ -15,11 +15,11 @@
         :required="isRequired"
         @input="handleInput"
         @input.once="handleInitalInput"
-      >
+      />
     </template>
 
     <template v-if="type === 'textarea'">
-      <textarea
+      <TextareaField
         class="textarea"
         cols="20"
         rows="10"
@@ -43,7 +43,15 @@
 import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
 import { FieldType, InputType } from '@/types';
 
-@Component
+import InputField from '@/components/InputField/InputField.vue';
+import TextareaField from '@/components/TextareaField/TextareaField.vue';
+
+@Component({
+  components: {
+    InputField,
+    TextareaField,
+  },
+})
 export default class Field extends Vue {
   @Prop() private name!: FieldType['name'];
   @Prop() private id!: FieldType['id'];

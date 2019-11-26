@@ -27,7 +27,7 @@ import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
 import { FieldType, InputType } from '@/types';
 
 @Component
-export default class Field extends Vue {
+export default class InputField extends Vue {
   @Prop() private name!: FieldType['name'];
   @Prop() private id!: FieldType['id'];
   @Prop() private label!: FieldType['label'];
@@ -103,8 +103,7 @@ export default class Field extends Vue {
   }
 }
 
-.input,
-.textarea {
+.input {
   flex-grow: 1;
 }
 
