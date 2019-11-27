@@ -57,10 +57,31 @@ import formdata from './formdata';
 export default class Form extends Vue {
   private fields: FieldType[] = formdata;
 
-  get isSubmittable(): boolean {
-    const allFieldsAreValid = this.fields.every((field: FieldType) => field.isValid);
+  get requiredFields(): FieldType[] {
+    const requiredFields = this.fields.filter((field: FieldType) => field.isRequired);
 
-    return allFieldsAreValid;
+    return requiredFields;
+  }
+
+  get isSubmittable(): boolean {
+    const requiredFieldsAreValid = this.requiredFields.every((field: FieldType) => field.isValid);
+
+    return requiredFieldsAreValid;
+  }
+
+  public get formValues(): FormTransferType {
+    const formValues: FormTransferType = this.fields.reduce((total: any, field: FieldType) => {
+      const newTotal = total;
+      const { value, id: key } = field;
+
+      if (!(key in newTotal)) {
+        newTotal[key] = value;
+      }
+
+      return newTotal;
+    }, {});
+
+    return formValues;
   }
 
   private handleSubmit(): void {
@@ -68,19 +89,7 @@ export default class Form extends Vue {
       return;
     }
 
-    const formValues: FormTransferType = this.fields.reduce((total: any, field: FieldType) => {
-      const newTotal = total;
-      const key = field.id;
-      const { value } = field;
-
-      if (newTotal[key] === undefined) {
-        newTotal[key] = value;
-      }
-
-      return newTotal;
-    }, {});
-
-    this.$emit('addNewEntry', formValues);
+    this.$emit('addNewEntry', this.formValues);
   }
 
   private handleValidChange(newIsValid: boolean, id: string): void {

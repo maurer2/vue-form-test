@@ -128,6 +128,7 @@ button {
   font-weight: bold;
   outline: 0;
   box-shadow: none;
+  cursor: pointer;
 
   &[disabled] {
     background: $gray;
