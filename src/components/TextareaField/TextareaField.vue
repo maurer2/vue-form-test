@@ -3,6 +3,7 @@
     class="textarea"
     cols="20"
     rows="10"
+    autocomplete="false"
     :name="name"
     :id="id"
     :value="value"
@@ -53,35 +54,7 @@ export default class TextareaField extends Vue {
 </script>
 
 <style scoped lang="scss">
-.field {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-
-  & + & {
-    margin-top: 0.5rem;
-  }
-}
-
-.label {
-  margin: 0.5rem 0;
-  flex-basis: 10rem;
-  flex-grow: 0;
-  align-self: baseline;
-  font-weight: bold;
-
-  &--is-required:after {
-    content: "*";
-  }
-}
-
 .textarea {
-  flex-grow: 1;
-}
-
-.error {
-  margin: 0.5rem 0;
-  flex-grow: 1;
-  color: $orange;
+  resize: vertical;
 }
 </style>

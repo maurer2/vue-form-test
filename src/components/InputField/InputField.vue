@@ -1,6 +1,7 @@
 <template>
   <input
     class="input"
+    autocomplete="meow"
     :name="name"
     :id="id"
     :value="value"
@@ -64,35 +65,8 @@ export default class InputField extends Vue {
 </script>
 
 <style scoped lang="scss">
-.field {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-
-  & + & {
-    margin-top: 0.5rem;
-  }
-}
-
-.label {
-  margin: 0.5rem 0;
-  flex-basis: 10rem;
-  flex-grow: 0;
-  align-self: baseline;
-  font-weight: bold;
-
-  &--is-required:after {
-    content: "*";
-  }
-}
-
 .input {
-  flex-grow: 1;
+  @include ellipsis;
 }
 
-.error {
-  margin: 0.5rem 0;
-  flex-grow: 1;
-  color: $orange;
-}
 </style>

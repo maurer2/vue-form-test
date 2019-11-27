@@ -8,6 +8,7 @@
       class="form"
       action="/"
       method="post"
+      autocomplete="off"
       @submit.prevent="handleSubmit"
     >
       <template v-for="field in fields">

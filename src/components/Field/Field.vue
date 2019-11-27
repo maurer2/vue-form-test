@@ -6,7 +6,7 @@
 
     <template v-if="type === 'textarea'">
       <TextareaField
-        class="textarea"
+        class="field-element"
         v-bind="$props"
         @inputChange="handleInputChange"
         @inputChange.once="handleInitalInputChange"
@@ -16,7 +16,7 @@
 
     <template v-else>
       <InputField
-        class="input"
+        class="field-element"
         v-bind="$props"
         @inputChange="handleInputChange"
         @inputChange.once="handleInitalInputChange"
@@ -75,6 +75,9 @@ export default class Field extends Vue {
 </script>
 
 <style scoped lang="scss">
+$bp-horizontal: 25rem;
+$label-width: 9rem;
+
 .field {
   display: flex;
   flex-wrap: wrap;
@@ -87,18 +90,21 @@ export default class Field extends Vue {
 
 .label {
   margin: 0.5rem 0;
-  flex-basis: 10rem;
+  flex-basis: 100%;
   flex-grow: 0;
   align-self: baseline;
   font-weight: bold;
+
+  @media only screen and (min-width: $bp-horizontal) {
+    flex-basis: $label-width;
+  }
 
   &--is-required:after {
     content: "*";
   }
 }
 
-.input,
-.textarea {
+.field-element {
   flex-grow: 1;
 }
 
@@ -106,5 +112,9 @@ export default class Field extends Vue {
   margin: 0.5rem 0;
   flex-grow: 1;
   color: $orange;
+
+  @media only screen and (min-width: $bp-horizontal) {
+    margin-left: $label-width;
+  }
 }
 </style>
