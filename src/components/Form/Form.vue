@@ -31,7 +31,7 @@
         * fields are mandatory
       </p>
 
-      <pre>
+      <pre hidden>
         {{ fields }}
       </pre>
 

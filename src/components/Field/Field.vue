@@ -5,7 +5,13 @@
     </label>
 
     <template v-if="type === 'textarea'">
-      test
+      <TextareaField
+        class="textarea"
+        v-bind="$props"
+        @inputChange="handleInputChange"
+        @inputChange.once="handleInitalInputChange"
+        @validityChange="handleValidityChange"
+      />
     </template>
 
     <template v-else>
@@ -13,6 +19,7 @@
         class="input"
         v-bind="$props"
         @inputChange="handleInputChange"
+        @inputChange.once="handleInitalInputChange"
         @validityChange="handleValidityChange"
       />
     </template>
@@ -24,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import { FieldType } from '@/types';
 
 import InputField from '@/components/InputField/InputField.vue';
@@ -48,22 +55,20 @@ export default class Field extends Vue {
 
   private hasBeenInteractedWith: boolean = false;
 
-  @Emit('isValidChange')
-  handleValidityChange(newValue: boolean): void {
+  private handleValidityChange(newValue: boolean): void {
     const { id } = this;
-
-    console.log("isValidChange", newValue);
 
     this.$emit('isValidChange', newValue, id);
   }
 
-  // @Emit('inputChange')
-  handleInputChange(value: string): any {
+  private handleInputChange(value: string): void {
     const { id } = this;
 
-    this.hasBeenInteractedWith = true;
-
     this.$emit('inputChange', value, id);
+  }
+
+  private handleInitalInputChange(): void {
+    this.hasBeenInteractedWith = true;
   }
 }
 

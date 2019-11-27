@@ -8,12 +8,11 @@
     :placeholder="placeholder"
     :required="isRequired"
     @input="handleInput"
-    @input.once="handleInitalInput"
   >
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { FieldType, InputType } from '@/types';
 
 @Component
@@ -27,8 +26,6 @@ export default class InputField extends Vue {
   @Prop() private isRequired!: FieldType['isRequired'];
   @Prop() private type!: InputType.Text | InputType.Email;
 
-  private hasBeenInteractedWith: boolean = false;
-
   private isValidTextField(fieldValue: string): boolean {
     return fieldValue.length > 0;
   }
@@ -40,10 +37,6 @@ export default class InputField extends Vue {
     const isValid = emailRegex.test(fieldValue);
 
     return isValid;
-  }
-
-  private handleInitalInput(): void {
-    this.hasBeenInteractedWith = true;
   }
 
   @Watch('value')
@@ -61,11 +54,9 @@ export default class InputField extends Vue {
 
   private handleInput(event: Event): void {
     const { target } = event;
-    const { id } = this;
-
     const newValue = (target as HTMLInputElement).value;
 
-    this.$emit('inputChange', newValue, id);
+    this.$emit('inputChange', newValue);
   }
 }
 </script>

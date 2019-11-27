@@ -9,12 +9,11 @@
     :placeholder="placeholder"
     :required="isRequired"
     @input="handleInput"
-    @input.once="handleInitalInput"
   />
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { FieldType, InputType } from '@/types';
 
 @Component
@@ -28,22 +27,27 @@ export default class TextareaField extends Vue {
   @Prop() private isRequired!: FieldType['isRequired'];
 
   private type: InputType = InputType.Textarea;
-  private hasBeenInteractedWith: boolean = false;
 
-  private isValidField(fieldValue: string): boolean {
+  private isValidTextareaField(fieldValue: string): boolean {
     return fieldValue.length > 0;
   }
 
-  handleInitalInput(): void {
-    this.hasBeenInteractedWith = true;
+  @Watch('value')
+  private handleValueChange(newValue: string): void {
+    const { id, isValid: oldIsValid } = this;
+
+    const newIsValid = this.isValidTextareaField(newValue);
+
+    if (newIsValid !== oldIsValid) {
+      this.$emit('validityChange', newIsValid, id);
+    }
   }
 
-  @Emit('input')
-  handleInput(event: Event): string {
+  private handleInput(event: Event): void {
     const { target } = event;
     const newValue = (target as HTMLInputElement).value;
 
-    return newValue;
+    this.$emit('inputChange', newValue);
   }
 }
 </script>
