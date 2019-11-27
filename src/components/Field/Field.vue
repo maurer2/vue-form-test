@@ -4,46 +4,45 @@
       {{ label }}
     </label>
 
-    <template v-if="type === 'email' || type === 'text'">
-      <input
-        class="input"
-        :name="name"
-        :id="id"
-        :value="value"
-        :type="type"
-        :placeholder="placeholder"
-        :required="isRequired"
-        @input="handleInput"
-        @input.once="handleInitalInput"
-      >
-    </template>
-
     <template v-if="type === 'textarea'">
-      <textarea
-        class="textarea"
-        cols="20"
-        rows="10"
-        :name="name"
-        :id="id"
-        :value="value"
-        :placeholder="placeholder"
-        :required="isRequired"
-        @input="handleInput"
-        @input.once="handleInitalInput"
+      <TextareaField
+        class="field-element"
+        v-bind="$props"
+        @inputChange="handleInputChange"
+        @inputChange.once="handleInitalInputChange"
+        @validityChange="handleValidityChange"
       />
     </template>
 
-    <p class="error" v-if="!isValid && userHasInteractedWithForm">
+    <template v-else>
+      <InputField
+        class="field-element"
+        v-bind="$props"
+        @inputChange="handleInputChange"
+        @inputChange.once="handleInitalInputChange"
+        @validityChange="handleValidityChange"
+      />
+    </template>
+
+    <p class="error" v-if="!isValid && hasBeenInteractedWith">
       Please enter a valid value.
     </p>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator';
-import { FieldType, InputType } from '@/types';
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { FieldType } from '@/types';
 
-@Component
+import InputField from '@/components/InputField/InputField.vue';
+import TextareaField from '@/components/TextareaField/TextareaField.vue';
+
+@Component({
+  components: {
+    InputField,
+    TextareaField,
+  },
+})
 export default class Field extends Vue {
   @Prop() private name!: FieldType['name'];
   @Prop() private id!: FieldType['id'];
@@ -54,56 +53,31 @@ export default class Field extends Vue {
   @Prop() private isRequired!: FieldType['isRequired'];
   @Prop() private type!: FieldType['type'];
 
-  private userHasInteractedWithForm: boolean = false;
+  private hasBeenInteractedWith: boolean = false;
 
-  private isValidTextField(fieldValue: string): boolean {
-    return fieldValue.length > 0;
+  private handleValidityChange(newValue: boolean): void {
+    const { id } = this;
+
+    this.$emit('isValidChange', newValue, id);
   }
 
-  private isValidEmailField(fieldValue: string): boolean {
-    // https://emailregex.com/
-    // eslint-disable-next-line
-    const emailRegex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-    const isValid = emailRegex.test(fieldValue);
+  private handleInputChange(value: string): void {
+    const { id } = this;
 
-    return isValid;
+    this.$emit('inputChange', value, id);
   }
 
-  handleInitalInput(): void {
-    this.userHasInteractedWithForm = true;
-  }
-
-  @Watch('value')
-  handleValueChange(newValue: string): void {
-    const {
- id, type, isValid: oldIsValid,
-} = this;
-    const eventName: string = 'isValidChange';
-
-    if (type === InputType.Textarea) {
-      return;
-    }
-
-    const newIsValid = (type === InputType.Text)
-      ? this.isValidTextField(newValue)
-      : this.isValidEmailField(newValue);
-
-    if (newIsValid !== oldIsValid) {
-      this.$emit(eventName, newIsValid, id);
-    }
-  }
-
-  @Emit('input')
-  handleInput(event: Event): string {
-    const { target } = event;
-    const newValue = (target as HTMLInputElement).value;
-
-    return newValue;
+  private handleInitalInputChange(): void {
+    this.hasBeenInteractedWith = true;
   }
 }
+
 </script>
 
 <style scoped lang="scss">
+$bp-horizontal: 25rem;
+$label-width: 9rem;
+
 .field {
   display: flex;
   flex-wrap: wrap;
@@ -116,18 +90,21 @@ export default class Field extends Vue {
 
 .label {
   margin: 0.5rem 0;
-  flex-basis: 10rem;
+  flex-basis: 100%;
   flex-grow: 0;
   align-self: baseline;
   font-weight: bold;
+
+  @media only screen and (min-width: $bp-horizontal) {
+    flex-basis: $label-width;
+  }
 
   &--is-required:after {
     content: "*";
   }
 }
 
-.input,
-.textarea {
+.field-element {
   flex-grow: 1;
 }
 
@@ -135,5 +112,9 @@ export default class Field extends Vue {
   margin: 0.5rem 0;
   flex-grow: 1;
   color: $orange;
+
+  @media only screen and (min-width: $bp-horizontal) {
+    margin-left: $label-width;
+  }
 }
 </style>

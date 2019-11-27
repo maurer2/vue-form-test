@@ -18,16 +18,24 @@ module.exports = {
   rules: {
     'no-debugger': 'off',
     'no-console': 'off',
-    'object-curly-newline': ['warn', {
-      ObjectPattern: {
-        multiline: true,
-        minProperties: 2,
-        consistent: true,
-      },
-      ImportDeclaration: 'never',
-      ExportDeclaration: 'never',
-    }],
-    indent: 'off',
+    'object-curly-newline': [
+      'error', {
+        ObjectExpression: {
+          minProperties: 3,
+          consistent: true,
+          multiline: true,
+        },
+        ObjectPattern: {
+          minProperties: 3,
+          consistent: true,
+          multiline: true,
+        },
+      }
+    ],
+    indent: [
+      'error', 
+      2
+    ],
     'vue/attributes-order': 'off',
     'vue/max-attributes-per-line': ['error', {
       singleline: 3,

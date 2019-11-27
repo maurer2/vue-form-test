@@ -8,6 +8,7 @@
       class="form"
       action="/"
       method="post"
+      autocomplete="off"
       @submit.prevent="handleSubmit"
     >
       <template v-for="field in fields">
@@ -23,12 +24,17 @@
           :is-required="field.isRequired"
           v-model.trim="field.value"
           @isValidChange="handleValidChange"
+          @inputChange="handleInputChange"
         />
       </template>
 
       <p class="hint">
         * fields are mandatory
       </p>
+
+      <pre hidden>
+        {{ fields }}
+      </pre>
 
       <button class="button" type="submit" :disabled="!isSubmittable">
         Add entry
@@ -40,7 +46,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { FieldType, FormTransferType } from '@/types';
-import Field from '../Field/Field.vue';
+import Field from '@/components/Field/Field.vue';
 import formdata from './formdata';
 
 @Component({
@@ -51,33 +57,42 @@ import formdata from './formdata';
 export default class Form extends Vue {
   private fields: FieldType[] = formdata;
 
-  get isSubmittable(): boolean {
-    const allFieldsAreValid = this.fields.every((field: FieldType) => field.isValid);
+  get requiredFields(): FieldType[] {
+    const requiredFields = this.fields.filter((field: FieldType) => field.isRequired);
 
-    return allFieldsAreValid;
+    return requiredFields;
   }
 
-  handleSubmit(): void {
-    if (!this.isSubmittable) {
-      return;
-    }
+  get isSubmittable(): boolean {
+    const requiredFieldsAreValid = this.requiredFields.every((field: FieldType) => field.isValid);
 
+    return requiredFieldsAreValid;
+  }
+
+  public get formValues(): FormTransferType {
     const formValues: FormTransferType = this.fields.reduce((total: any, field: FieldType) => {
       const newTotal = total;
-      const key = field.id;
-      const { value } = field;
+      const { value, id: key } = field;
 
-      if (newTotal[key] === undefined) {
+      if (!(key in newTotal)) {
         newTotal[key] = value;
       }
 
       return newTotal;
     }, {});
 
-    this.$emit('addNewEntry', formValues);
+    return formValues;
   }
 
-  handleValidChange(newIsValid: boolean, id: string): void {
+  private handleSubmit(): void {
+    if (!this.isSubmittable) {
+      return;
+    }
+
+    this.$emit('addNewEntry', this.formValues);
+  }
+
+  private handleValidChange(newIsValid: boolean, id: string): void {
     if (typeof newIsValid !== 'boolean') {
       return;
     }
@@ -90,6 +105,23 @@ export default class Form extends Vue {
 
     const newFields = [...this.fields];
     newFields[fieldToUpdateIndex].isValid = newIsValid;
+
+    this.fields = newFields;
+  }
+
+  private handleInputChange(newValue: string, id: string): void {
+    if (typeof newValue !== 'string') {
+      return;
+    }
+
+    const fieldToUpdateIndex: number = this.fields.findIndex((field) => field.id === id);
+
+    if (fieldToUpdateIndex === -1) {
+      return;
+    }
+
+    const newFields = [...this.fields];
+    newFields[fieldToUpdateIndex].value = newValue;
 
     this.fields = newFields;
   }
