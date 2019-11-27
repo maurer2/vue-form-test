@@ -29,21 +29,25 @@ describe('Form', () => {
   });
 
   test('Form isSubmittable is only true for if all fields are true', () => {
-    wrapper.setData({ fieldsValidity: {
+    wrapper.setData({
+      fieldsValidity: {
         firstName: false,
         lastName: false,
         email: false,
         customerQuery: false,
-      } });
+      },
+    });
 
     expect(wrapper.vm.isSubmittable).toBe(false);
 
-    wrapper.setData({ fieldsValidity: {
+    wrapper.setData({
+      fieldsValidity: {
         firstName: true,
         lastName: true,
         email: true,
         customerQuery: true,
-      } });
+      },
+    });
 
     expect(wrapper.vm.isSubmittable).toBe(true);
   });

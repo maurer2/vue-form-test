@@ -41,7 +41,9 @@ export default class InputField extends Vue {
 
   @Watch('value')
   private handleValueChange(newValue: string): void {
-    const { id, type, isValid: oldIsValid } = this;
+    const {
+      id, type, isValid: oldIsValid,
+    } = this;
 
     const newIsValid = (type === InputType.Text)
       ? this.isValidTextField(newValue)
