@@ -13,28 +13,17 @@
     <template v-else>
       <ul class="list">
         <template v-for="(entry, index) in entries">
-          <li class="entry" :class="{ 'entry--is-active' : (index === activeEntry) }" :key="index">
-            <button
-              type="button"
-              class="button"
-              :class="{ 'button--is-active' : (index === activeEntry) }"
-              @click="handleClick(index)"
-            >
-              {{ entry.firstName }} {{ entry.lastName }}
-            </button>
-
-            <template v-if="activeEntry === index">
-              <template v-for="(item, key) in itemsToShow">
-                <dl class="detail" :key="item">
-                  <dt class="key">
-                    {{ itemsToShow[key] }}
-                  </dt>
-                  <dd class="value">
-                    {{ entry[key] }}
-                  </dd>
-                </dl>
-              </template>
-            </template>
+          <li
+            class="entry"
+            :class="{ 'entry--is-active' : (index === activeEntry) }"
+            :key="index"
+          >
+            <SummaryEntry
+              :index="index"
+              :is-active="(index === activeEntry)"
+              :entry="entry"
+              @entryClicked="handleEntryClicked"
+            />
           </li>
         </template>
       </ul>
@@ -45,23 +34,22 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { EntryType } from '@/types';
+import SummaryEntry from '@/components/SummaryEntry/SummaryEntry.vue';
 
-@Component
-export default class Field extends Vue {
+@Component({
+  components: {
+    SummaryEntry,
+  },
+})
+export default class Summary extends Vue {
   private activeEntry: number = (this.entries.length > 0) ? 0 : -1;
-  private itemsToShow: { [key: string]: string } = {
-    firstName: 'First name',
-    lastName: 'Last name',
-    email: 'Email',
-    customerQuery: 'Customer query',
-  };
 
   get entries(): EntryType[] {
     return this.$store.state.entries;
   }
 
-  handleClick(index: number): void {
-    this.activeEntry = (index === this.activeEntry) ? -1 : index;
+  private handleEntryClicked(indexOfClickedElement: number): void {
+    this.activeEntry = (indexOfClickedElement === this.activeEntry) ? -1 : indexOfClickedElement;
   }
 }
 </script>
@@ -97,41 +85,4 @@ export default class Field extends Vue {
   }
 }
 
-.button {
-  position: relative;
-  padding-right: 2.5rem;
-
-  &:after {
-    content: '';
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    width: 0;
-    height: 0;
-    border-left: 0.5rem solid transparent;
-    border-right: 0.5rem solid transparent;
-    border-top: 0.5rem solid $white;
-    transform: translateY(-50%);
-  }
-
-  &--is-active:after {
-    border-top: 0;
-    border-bottom: 0.5rem solid $white;
-  }
-}
-
-.detail {
-  display: flex;
-  margin: 0.5rem 1rem 0 1rem;
-}
-
-.key {
-  margin: 0;
-  flex-basis: 6rem;
-  font-weight: bold;
-}
-
-.value {
-  margin: 0rem;
-}
 </style>
