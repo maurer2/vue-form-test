@@ -2,6 +2,7 @@
   <div class="summary">
     <h2 class="title">
       Summary
+      <span class="count">({{ numberOfEntries }} entries)</span>
     </h2>
 
     <template v-if="entries.length === 0">
@@ -46,6 +47,10 @@ export default class Summary extends Vue {
 
   get entries(): EntryType[] {
     return this.$store.state.entries;
+  }
+
+  get numberOfEntries(): string {
+    return this.$store.getters.numberOfEntries.toString().padStart(3, '0');
   }
 
   private handleEntryClicked(indexOfClickedElement: number): void {
