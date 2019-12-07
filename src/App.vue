@@ -21,10 +21,14 @@
     </header>
 
     <main class="main">
-      <section class="section" v-if="formIsVisible">
-        <Form @addNewEntry="handleNewEntry" />
+      <section class="section">
+        <h2 class="subtitle">
+          Form
+        </h2>
+        <transition v-if="formIsVisible" name="bounce" appear>
+          <Form @addNewEntry="handleNewEntry" />
+        </transition>
       </section>
-
       <section class="section">
         <Summary />
       </section>
@@ -130,7 +134,8 @@ button {
   box-shadow: none;
   cursor: pointer;
 
-  &[disabled] {
+  &[disabled],
+  &--is-disabled {
     background: $gray;
   }
 }
@@ -138,6 +143,15 @@ button {
 </style>
 
 <style lang="scss" scoped>
+//@import '~animate.scss/vendor/assets/stylesheets/animate.scss';
+//@import '~animate.scss/vendor/assets/stylesheets/animate/bounce.scss';
+
+@import '~animatewithsass/_properties.scss';
+@import '~animatewithsass/_bouncing-exits/bouncing-exits.scss';
+
+@import '~animatewithsass/_bouncing-entrances/bounceInLeft.scss';
+@import '~animatewithsass/_bouncing-exits/bounceOutLeft.scss';
+
 .container {
   position: relative; // needed for sticky
 }
@@ -164,4 +178,21 @@ button {
   margin-top: 0;
   margin-bottom: 1rem;
 }
+
+.subtitle {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px dashed $blue;
+}
+
+// transitions
+.bounce-leave-active {
+  @include bounceOutLeft();
+}
+
+.bounce-enter-active {
+  @include bounceInLeft();
+}
+
 </style>

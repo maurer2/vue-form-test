@@ -1,46 +1,40 @@
 <template>
-  <div class="wrapper">
-    <h2 class="title">
-      Form
-    </h2>
+  <form
+    class="form"
+    action="/"
+    method="post"
+    autocomplete="off"
+    @submit.prevent="handleSubmit"
+  >
+    <template v-for="field in fields">
+      <Field
+        :key="field.id"
+        :value="field.value"
+        :name="field.name"
+        :id="field.id"
+        :label="field.label"
+        :type="field.type"
+        :placeholder="field.placeholder"
+        :is-valid="field.isValid"
+        :is-required="field.isRequired"
+        v-model.trim="field.value"
+        @isValidChange="handleValidChange"
+        @inputChange="handleInputChange"
+      />
+    </template>
 
-    <form
-      class="form"
-      action="/"
-      method="post"
-      autocomplete="off"
-      @submit.prevent="handleSubmit"
-    >
-      <template v-for="field in fields">
-        <Field
-          :key="field.id"
-          :value="field.value"
-          :name="field.name"
-          :id="field.id"
-          :label="field.label"
-          :type="field.type"
-          :placeholder="field.placeholder"
-          :is-valid="field.isValid"
-          :is-required="field.isRequired"
-          v-model.trim="field.value"
-          @isValidChange="handleValidChange"
-          @inputChange="handleInputChange"
-        />
-      </template>
+    <p class="hint">
+      * fields are mandatory
+    </p>
 
-      <p class="hint">
-        * fields are mandatory
-      </p>
+    <pre hidden>
+      {{ fields }}
+    </pre>
 
-      <pre hidden>
-        {{ fields }}
-      </pre>
-
-      <button class="button" type="submit" :disabled="!isSubmittable">
-        Add entry
-      </button>
-    </form>
-  </div>
+    <button class="button" type="submit" :disabled="!isSubmittable">
+      Add entry
+    </button>
+  </form>
 </template>
 
 <script lang="ts">
@@ -132,13 +126,6 @@ export default class Form extends Vue {
 .form {
   padding: 0;
   max-width: 30rem;
-}
-
-.title {
-  margin-top: 0;
-  margin-bottom: 0.75rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px dashed $blue;
 }
 
 .hint {
