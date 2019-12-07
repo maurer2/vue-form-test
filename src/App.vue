@@ -10,7 +10,15 @@
           <h2 class="subtitle">
             Form
           </h2>
-          <transition v-if="formIsVisible" name="bounce" appear>
+          <transition
+            v-if="formIsVisible"
+            name="bounce"
+            appear
+            @enter="handleTransitionEnter"
+            @afterEnter="handleTransitionEnterEnd"
+            @leave="handleTransitionLeave"
+            @afterLeave="handleTransitionLeaveEnd"
+          >
             <Form @addNewEntry="handleNewEntry" />
           </transition>
         </section>
@@ -42,6 +50,7 @@ import Summary from '@/components/Summary/Summary.vue';
 })
 export default class App extends Vue {
   private formIsVisible: boolean = true;
+  private formIsTransitioning: boolean = false;
 
   private created(): void {
     this.addDummyData();
@@ -53,6 +62,10 @@ export default class App extends Vue {
   }
 
   private handleFormVisibilityToggle(): void {
+    if (this.formIsTransitioning) {
+      return;
+    }
+
     this.formIsVisible = !this.formIsVisible;
   }
 
@@ -70,6 +83,22 @@ export default class App extends Vue {
       email: 'catrick@swayze.com',
       customerQuery: '',
     } as FormTransferType);
+  }
+
+  private handleTransitionEnter(): void {
+    this.formIsTransitioning = true;
+  }
+
+  private handleTransitionEnterEnd(): void {
+    this.formIsTransitioning = false;
+  }
+
+  private handleTransitionLeave(): void {
+    this.formIsTransitioning = true;
+  }
+
+  private handleTransitionLeaveEnd(): void {
+    this.formIsTransitioning = false;
   }
 }
 </script>
@@ -139,23 +168,12 @@ button {
 </style>
 
 <style lang="scss" scoped>
-//@import '~animate.scss/vendor/assets/stylesheets/animate.scss';
-//@import '~animate.scss/vendor/assets/stylesheets/animate/bounce.scss';
-
 @import '~animatewithsass/_properties.scss';
-@import '~animatewithsass/_bouncing-exits/bouncing-exits.scss';
-
 @import '~animatewithsass/_bouncing-entrances/bounceInLeft.scss';
 @import '~animatewithsass/_bouncing-exits/bounceOutLeft.scss';
 
 .container {
-  position: relative; // needed for sticky
-}
-
-.main {
-  margin-right: auto;
-  padding: 1rem;
-  max-width: 50rem;
+  position: relative;
 }
 
 .section {

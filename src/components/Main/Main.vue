@@ -16,7 +16,9 @@ export default class Main extends Vue {}
 
 <style scoped lang="scss">
 .main {
-  
+  margin-right: auto;
+  padding: 1rem;
+  max-width: 50rem;
 }
 
 </style>
