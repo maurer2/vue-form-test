@@ -4,20 +4,23 @@
       :form-is-visible="formIsVisible"
       @toggleFormVisiblity="handleFormVisibilityToggle"
     />
-
-    <main class="main">
-      <section class="section">
-        <h2 class="subtitle">
-          Form
-        </h2>
-        <transition v-if="formIsVisible" name="bounce" appear>
-          <Form @addNewEntry="handleNewEntry" />
-        </transition>
-      </section>
-      <section class="section">
-        <Summary />
-      </section>
-    </main>
+    <Main>
+      <template v-slot:form>
+        <section class="section">
+          <h2 class="subtitle">
+            Form
+          </h2>
+          <transition v-if="formIsVisible" name="bounce" appear>
+            <Form @addNewEntry="handleNewEntry" />
+          </transition>
+        </section>
+      </template>
+      <template v-slot:summary>
+        <section class="section">
+          <Summary />
+        </section>
+      </template>
+    </Main>
   </div>
 </template>
 
@@ -25,20 +28,22 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { FormTransferType } from '@/types.ts';
 import Header from '@/components/Header/Header.vue';
+import Main from '@/components/Main/Main.vue';
 import Form from '@/components/Form/Form.vue';
 import Summary from '@/components/Summary/Summary.vue';
 
 @Component({
   components: {
+    Header,
+    Main,
     Form,
     Summary,
-    Header,
   },
 })
 export default class App extends Vue {
   private formIsVisible: boolean = true;
 
-  private mounted(): void {
+  private created(): void {
     this.addDummyData();
   }
 
