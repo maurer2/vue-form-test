@@ -1,24 +1,9 @@
 <template>
   <div id="container" class="container">
-    <header class="header">
-      <h1 class="title">
-        Sailsphorce
-      </h1>
-      <div class="buttons">
-        <button
-          class="button"
-          type="button"
-          @click="handleFormVisibilityToggle"
-        >
-          <span class="text" v-if="formIsVisible">
-            Hide form
-          </span>
-          <span class="text" v-else>
-            Show form
-          </span>
-        </button>
-      </div>
-    </header>
+    <Header
+      :form-is-visible="formIsVisible"
+      @toggleFormVisiblity="handleFormVisibilityToggle"
+    />
 
     <main class="main">
       <section class="section">
@@ -39,6 +24,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { FormTransferType } from '@/types.ts';
+import Header from '@/components/Header/Header.vue';
 import Form from '@/components/Form/Form.vue';
 import Summary from '@/components/Summary/Summary.vue';
 
@@ -46,12 +32,26 @@ import Summary from '@/components/Summary/Summary.vue';
   components: {
     Form,
     Summary,
+    Header,
   },
 })
 export default class App extends Vue {
   private formIsVisible: boolean = true;
 
-  mounted(): void {
+  private mounted(): void {
+    this.addDummyData();
+  }
+
+  private handleNewEntry(newEntry: FormTransferType): void {
+    this.$store.commit('addEntry', newEntry);
+    this.formIsVisible = false;
+  }
+
+  private handleFormVisibilityToggle(): void {
+    this.formIsVisible = !this.formIsVisible;
+  }
+
+  private addDummyData(): void {
     this.$store.commit('addEntry', {
       firstName: 'Cat',
       lastName: 'Damon',
@@ -65,15 +65,6 @@ export default class App extends Vue {
       email: 'catrick@swayze.com',
       customerQuery: '',
     } as FormTransferType);
-  }
-
-  handleNewEntry(newEntry: FormTransferType): void {
-    this.$store.commit('addEntry', newEntry);
-    this.formIsVisible = false;
-  }
-
-  handleFormVisibilityToggle(): void {
-    this.formIsVisible = !this.formIsVisible;
   }
 }
 </script>
@@ -156,14 +147,6 @@ button {
   position: relative; // needed for sticky
 }
 
-.header {
-  position: sticky;
-  top: 0;
-  padding: 1rem;
-  background: $darkblue;
-  color: $white;
-}
-
 .main {
   margin-right: auto;
   padding: 1rem;
@@ -172,11 +155,6 @@ button {
 
 .section {
   margin-bottom: 2rem;
-}
-
-.title {
-  margin-top: 0;
-  margin-bottom: 1rem;
 }
 
 .subtitle {
