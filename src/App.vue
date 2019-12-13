@@ -34,11 +34,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { FormTransferType } from '@/types.ts';
-import Header from '@/components/Header/Header.vue';
-import Main from '@/components/Main/Main.vue';
-import Form from '@/components/Form/Form.vue';
-import Summary from '@/components/Summary/Summary.vue';
+import { FormTransferType } from 'components/types/index.ts';
+import Header from 'components/Header/Header.vue';
+import Main from 'components/Main/Main.vue';
+import Form from 'components/Form/Form.vue';
+import Summary from 'components/Summary/Summary.vue';
 
 @Component({
   components: {
