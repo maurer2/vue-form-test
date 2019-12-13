@@ -48,17 +48,13 @@ module.exports = {
     'lines-between-class-members': 'off',
     'class-methods-use-this': 'off',
     // '@typescript-eslint/no-unused-vars': 'warn',
-
   },
   settings: {
-    'import/resolver': {
-      'babel-module': {},
-      node: {
-        paths: [
-          './src',
-        ],
-      },
-    },
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
+    }
   },
   // https://github.com/typescript-eslint/typescript-eslint/issues/46#issuecomment-470486034
   overrides: [

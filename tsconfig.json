@@ -15,27 +15,23 @@
       "webpack-env",
       "jest"
     ],
-    "paths": {
-      "*": [
-        "./src/*"
-      ],
-      "@/*": [
-        "./src/*"
-      ]
-    },
     "lib": [
       "esnext",
       "dom",
       "dom.iterable",
       "scripthost"
-    ]
+    ],
+    "paths": {
+      "components/*": [
+        "src/components/*"
+      ],
+    }
   },
   "include": [
-    "./src/**/*.ts",
-    "./src/**/*.tsx",
-    "./src/**/*.vue",
-    "./tests/**/*.ts",
-    "./tests/**/*.tsx"
+    "src/**/*.ts",
+    "src/**/*.vue",
+    "tests/**/*.ts",
+    "tests/**/*.vue"
   ],
   "exclude": [
     "node_modules"
