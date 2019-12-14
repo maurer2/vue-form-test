@@ -14,10 +14,10 @@
             v-if="formIsVisible"
             name="bounce"
             appear
-            @enter="handleTransitionEnter"
-            @afterEnter="handleTransitionEnterEnd"
-            @leave="handleTransitionLeave"
-            @afterLeave="handleTransitionLeaveEnd"
+            @enter="handleTransitionStart"
+            @afterEnter="handleTransitionEnd"
+            @leave="handleTransitionStart"
+            @afterLeave="handleTransitionEnd"
           >
             <Form @addNewEntry="handleNewEntry" />
           </transition>
@@ -34,11 +34,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { FormTransferType } from '@/types.ts';
-import Header from '@/components/Header/Header.vue';
-import Main from '@/components/Main/Main.vue';
-import Form from '@/components/Form/Form.vue';
-import Summary from '@/components/Summary/Summary.vue';
+import { FormTransferType } from 'components/types/index.ts';
+import Header from 'components/Header/Header.vue';
+import Main from 'components/Main/Main.vue';
+import Form from 'components/Form/Form.vue';
+import Summary from 'components/Summary/Summary.vue';
 
 @Component({
   components: {
@@ -85,19 +85,11 @@ export default class App extends Vue {
     } as FormTransferType);
   }
 
-  private handleTransitionEnter(): void {
+  private handleTransitionStart(): void {
     this.formIsTransitioning = true;
   }
 
-  private handleTransitionEnterEnd(): void {
-    this.formIsTransitioning = false;
-  }
-
-  private handleTransitionLeave(): void {
-    this.formIsTransitioning = true;
-  }
-
-  private handleTransitionLeaveEnd(): void {
+  private handleTransitionEnd(): void {
     this.formIsTransitioning = false;
   }
 }
@@ -189,11 +181,23 @@ button {
 
 // transitions
 .bounce-leave-active {
-  @include bounceOutLeft();
+  @include bounceOutLeft(
+    $duration: 0.75s,
+    $count: 1,
+    $delay: 0,
+    $function: ease-in,
+    $fill: both,
+  );
 }
 
 .bounce-enter-active {
-  @include bounceInLeft();
+  @include bounceInLeft(
+    $duration: 0.75s,
+    $count: 1,
+    $delay: 0,
+    $function: ease-out,
+    $fill: both,
+  );
 }
 
 </style>
