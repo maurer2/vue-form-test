@@ -8,7 +8,7 @@ module.exports = {
         './src',
       ],
       alias: {
-        components: './components',
+        components: './src/components',
       },
       extensions: [
         '.js',
