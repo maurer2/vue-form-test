@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form Component matches snapshot 1`] = `
+<div class="wrapper">
+  <h2 class="title">
+    Form
+  </h2>
+  <form action="/" method="post" class="form">
+    <field-stub name="First name" id="firstName" label="Name label" value="" placeholder="Please enter your first name" isrequired="true" type="text"></field-stub>
+    <field-stub name="Last name" id="lastName" label="Last label" value="" placeholder="Please enter your last name" isrequired="true" type="text"></field-stub>
+    <field-stub name="Email" id="email" label="Email label" value="" placeholder="Please enter your email" isrequired="true" type="email"></field-stub>
+    <field-stub name="Customer Query" id="customerQuery" label="Customer query" value="" placeholder="Please enter your customer query" type="textarea"></field-stub>
+    <p class="hint">
+      * fields are mandatory
+    </p> <button type="submit" disabled="disabled" class="button">
+      Add entry
+    </button>
+  </form>
+</div>
+`;
