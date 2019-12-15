@@ -16,11 +16,11 @@ module.exports = {
     resolve: {
       modules: [
         path.resolve('./src'),
-        path.resolve('./src/components'),
         path.resolve('./node_modules'),
       ],
       alias: {
         components: path.resolve(__dirname, 'src/components'),
+        store: path.resolve(__dirname, 'src/store'),
       },
       extensions: [
         '.ts', '.vue', '.js',

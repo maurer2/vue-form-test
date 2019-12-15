@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import store from 'components/store/index.ts';
+import store from 'store/store.ts';
 import App from './App.vue';
 
 Vue.config.productionTip = false;
