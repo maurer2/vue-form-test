@@ -10,6 +10,7 @@ module.exports = {
       alias: {
         components: './src/components',
         store: './src/store',
+        types: './src/types',
       },
       extensions: [
         '.js',

@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { FieldType, InputType } from 'components/types/index.ts';
+import { FieldType, InputType } from 'types/types.ts';
 
 @Component
 export default class TextareaField extends Vue {

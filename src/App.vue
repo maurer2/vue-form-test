@@ -34,7 +34,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { FormTransferType } from 'components/types/index.ts';
+import { FormTransferType } from 'types/types.ts';
+
 import Header from 'components/Header/Header.vue';
 import Main from 'components/Main/Main.vue';
 import Form from 'components/Form/Form.vue';

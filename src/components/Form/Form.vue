@@ -39,7 +39,8 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import { FieldType, FormTransferType } from 'components/types/index.ts';
+import { FieldType, FormTransferType } from 'types/types.ts';
+
 import Field from 'components/Field/Field.vue';
 import formdata from 'components/Form/formdata.ts';
 

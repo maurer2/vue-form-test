@@ -22,12 +22,9 @@
       "scripthost"
     ],
     "paths": {
-      "components/*": [
-        "src/components/*"
-      ],
-      "store/*": [
-        "src/store/*",
-      ]
+      "components/*": ["src/components/*"],
+      "store/*": ["src/store/*"],
+      "types/*": ["src/types/*"]
     }
   },
   "include": [

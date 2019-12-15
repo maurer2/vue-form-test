@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { EntryType } from 'components/types/index.ts';
+import { EntryType } from 'types/types.ts';
 
 Vue.use(Vuex);
 

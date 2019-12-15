@@ -34,7 +34,7 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import { EntryType } from 'components/types/index.ts';
+import { EntryType } from 'types/types.ts';
 import SummaryEntry from 'components/SummaryEntry/SummaryEntry.vue';
 
 @Component({

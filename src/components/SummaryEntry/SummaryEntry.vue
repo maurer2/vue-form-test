@@ -26,7 +26,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { EntryType } from 'components/types/index.ts';
+import { EntryType } from 'types/types.ts';
 
 @Component
 export default class SummaryEntry extends Vue {

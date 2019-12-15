@@ -1,4 +1,4 @@
-import { FieldType, InputType } from 'components/types/index.ts';
+import { FieldType, InputType } from 'types/types.ts';
 
 const fields: FieldType[] = [
   {

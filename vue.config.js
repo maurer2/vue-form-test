@@ -15,12 +15,12 @@ module.exports = {
   configureWebpack: {
     resolve: {
       modules: [
-        path.resolve('./src'),
         path.resolve('./node_modules'),
       ],
       alias: {
         components: path.resolve(__dirname, 'src/components'),
         store: path.resolve(__dirname, 'src/store'),
+        types: path.resolve(__dirname, 'src/types'),
       },
       extensions: [
         '.ts', '.vue', '.js',

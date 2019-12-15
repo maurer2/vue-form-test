@@ -32,9 +32,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { FieldType } from 'types/types.ts';
+
 import InputField from 'components/InputField/InputField.vue';
 import TextareaField from 'components/TextareaField/TextareaField.vue';
-import { FieldType } from 'components/types/index.ts';
 
 @Component({
   components: {
