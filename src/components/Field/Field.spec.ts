@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import Field from './Field.vue';
+import Field from 'components/Field/Field.vue';
 
 describe('Field', () => {
   let wrapper: any;

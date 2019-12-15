@@ -4,6 +4,6 @@ module.exports = {
     '**/*.spec.(js|ts)',
   ],
   moduleNameMapper: {
-    '^@components(.*)$': '<rootDir>/src/components$1',
+    'components(.*)$': '<rootDir>/src/components/$1',
   },
 };
